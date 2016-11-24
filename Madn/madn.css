@@ -440,6 +440,147 @@
 
 }
 
+#inner-field-top-1 {
+    position: absolute;
+    top: 65px;
+    left: 305px;
+    right: 0;
+}
+
+#inner-field-top-2 {
+    position: absolute;
+    top: 115px;
+    left: 305px;
+    right: 0;
+}
+
+#inner-field-top-3 {
+    position: absolute;
+    top: 165px;
+    left: 305px;
+    right: 0;
+}
+
+#inner-field-top-4 {
+    position: absolute;
+    top: 215px;
+    left: 305px;
+    right: 0;
+}
+
+#inner-field-right-1 {
+    position: absolute;
+    top: 305px;
+    left: 545px;
+    right: 0;
+}
+
+#inner-field-right-2 {
+    position: absolute;
+    top: 305px;
+    left: 495px;
+    right: 0;
+}
+
+#inner-field-right-3 {
+    position: absolute;
+    top: 305px;
+    left: 445px;
+    right: 0;
+}
+
+#inner-field-right-4 {
+    position: absolute;
+    top: 305px;
+    left: 395px;
+    right: 0;
+}
+
+#inner-field-bottom-1 {
+    position: absolute;
+    top: 545px;
+    left: 305px;
+    right: 0;
+}
+
+#inner-field-bottom-2 {
+    position: absolute;
+    top: 495px;
+    left: 305px;
+    right: 0;
+}
+
+#inner-field-bottom-3 {
+    position: absolute;
+    top: 445px;
+    left: 305px;
+    right: 0;
+}
+
+#inner-field-bottom-4 {
+    position: absolute;
+    top: 395px;
+    left: 305px;
+    right: 0;
+}
+
+#inner-field-left-1 {
+    position: absolute;
+    top: 305px;
+    left: 65px;
+    right: 0;
+}
+
+#inner-field-left-2 {
+    position: absolute;
+    top: 305px;
+    left: 115px;
+    right: 0;
+}
+
+#inner-field-left-3 {
+    position: absolute;
+    top: 305px;
+    left: 165px;
+    right: 0;
+}
+
+#inner-field-left-4 {
+    position: absolute;
+    top: 305px;
+    left: 215px;
+    right: 0;
+}
+
+.inner-field {
+    border-radius: 50%;
+    background-color: grey;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.inner-field-inner-border {
+    /*margin: 4px;*/
+    border-radius: 50%;
+    height: 32px;
+    width: 32px;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+}
+
+.inner-field-inner {
+    /*margin: 0 auto;*/
+    align-self: center;
+    border-radius: 50%;
+    height: 22px;
+    width: 22px;
+    background-color:rgba(255,255,255,0.9);
+}
+
 .field {
     border-radius: 50%;
     background-color: grey;
@@ -474,8 +615,18 @@
 }
 
 .field-inner-red {
-    background-color: palevioletred;
+    background-color: red;
 }
+
+.field-inner-blue {
+    background-color: blue;
+}
+
+.field-inner-cyan {
+    background-color: cyan;
+}
+
+
 
 .field-red {
     width: 54px;
