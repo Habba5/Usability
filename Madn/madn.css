@@ -445,16 +445,19 @@
     background-color: grey;
     height: 50px;
     width: 50px;
+    display: flex;
+    justify-content: center;
 }
 
 .field-inner-border {
-    margin: 4px;
+    /*margin: 4px;*/
     border-radius: 50%;
     height: 42px;
     width: 42px;
     background-color: black;
     display: flex;
     justify-content: center;
+    align-self: center;
 }
 
 .field-inner {
@@ -470,6 +473,15 @@
     background-color: greenyellow;
 }
 
+.field-inner-red {
+    background-color: palevioletred;
+}
+
+.field-red {
+    width: 54px;
+    height: 54px;
+    background-color: palevioletred;
+}
 
 #field-container {
     align-self: center;
@@ -482,6 +494,37 @@
 
 #container {
     margin:0 auto;
-    width: 600px;
-    height: 600px;
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    margin: 0px;
+}
+
+.field-inner:hover{
+    -webkit-animation: pulse 0.8s ease-in-out infinite alternate;
+    animation: pulse 0.8s ease-in-out infinite alternate;
+}
+@-webkit-keyframes pulse {
+    0% {
+        background-color: rgba(255,255,255,0.9);
+    }
+    50% {
+        background-color: greenyellow;
+    }
+    100% {
+        background-color: rgba(255,255,255,0.9);
+    }
+}
+@keyframes pulse {
+    0% {
+        background-color: rgba(255,255,255,0.9);
+    }
+    50% {
+        background-color: greenyellow;
+    }
+    100% {
+        background-color: rgba(255,255,255,0.9);
+    }
 }
