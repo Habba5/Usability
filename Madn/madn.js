@@ -55,6 +55,26 @@ function updateMove(a, b, p) {
         console.log(p.style.left);
     }
 
+    if (finish_left < player_left) {
+        //move right
+        console.log(p.style.left);
+        p.style.left = (player_left - 1) + "px";
+        console.log(p.style.left);
+    }
+
+    if (finish_top > player_top) {
+        //move right
+        console.log(p.style.top);
+        p.style.top = (player_top + 1) + "px";
+        console.log(p.style.top);
+    }
+
+    if (finish_top < player_top) {
+        //move right
+        console.log(p.style.top);
+        p.style.top = (player_top - 1) + "px";
+        console.log(p.style.top);
+    }
 
 
 }
@@ -92,6 +112,9 @@ function moveFromTo(a, b) {
     movable.style.left = movable_left + "px";
     movable.style.position = "absolute";
 
+    // reset start to normal
+    a.childNodes[0].childNodes[0].className = "field-inner"
+
     interval = setInterval(function(){
         updateMove(a, b, movable);
     }, 10);
@@ -110,18 +133,18 @@ function flicker() {
     // }
     //
 
-    for (i = 0; i < fields.length; i++) {
-        var c = fields[i].childNodes[0].childNodes[0];
-        if (c.className == "field-inner field-inner-green") {
-            c.className = "field-inner";
-        } else if (c.className == "field-inner") {
-            c.className = "field-inner field-inner-red";
-        } else {
-            c.className = "field-inner field-inner-green";
-        }
-    }
+    // for (i = 0; i < fields.length; i++) {
+    //     var c = fields[i].childNodes[0].childNodes[0];
+    //     if (c.className == "field-inner field-inner-green") {
+    //         c.className = "field-inner";
+    //     } else if (c.className == "field-inner") {
+    //         c.className = "field-inner field-inner-red";
+    //     } else {
+    //         c.className = "field-inner field-inner-green";
+    //     }
+    // }
 
-    moveFromTo(fields[9], fields[10]);
+    moveFromTo(fields[10], fields[11]);
     // alert(c)
 }
 
