@@ -14,16 +14,19 @@ function addFields() {
     }
     for (i = 1; i <= 4; i++) {
         finish_top.push(document.getElementById("inner-field-top-"+i));
+        finish_right.push(document.getElementById("inner-field-right-"+i));
+        finish_bottom.push(document.getElementById("inner-field-bottom-"+i));
+        finish_left.push(document.getElementById("inner-field-left-"+i));
     }
 }
 
 function finishMove(a, b, p) {
 
-    if (b.className.includes("field-inner ")) {
-        b.childNodes[0].childNodes[0].className = p.className;
-    } else {
-        b.childNodes[0].childNodes[0].className = p.className.replace('field-inner ','inner-field-inner ');
-    }
+    b.childNodes[0].childNodes[0].className = p.className;
+    // if (b.className.includes("field-inner ")) {
+    // } else {
+    //     b.childNodes[0].childNodes[0].className = p.className.replace('field-inner ','inner-field-inner ');
+    // }
     p.style.display = "none";
 
 }
@@ -70,19 +73,19 @@ function updateMove(a, b, p) {
 
     // console.log(transform_fac+"\n"+distance_done);
 
-    if (distance_done % step == 0) {
-        console.log("Transforming");
-        if (finish_child2_width < player_width ) {
-            p.style.width = (player_width - transform_fac) + "px";
-            p.style.height = (player_height - transform_fac) + "px";
-        }
-
-        if (finish_child2_width > player_height) {
-            p.style.width = (player_width + transform_fac) + "px";
-            p.style.height = (player_height + transform_fac) + "px";
-        }
-
-    }
+    // if (distance_done % step == 0) {
+    //     console.log("Transforming");
+    //     if (finish_child2_width < player_width ) {
+    //         p.style.width = (player_width - transform_fac) + "px";
+    //         p.style.height = (player_height - transform_fac) + "px";
+    //     }
+    //
+    //     if (finish_child2_width > player_height) {
+    //         p.style.width = (player_width + transform_fac) + "px";
+    //         p.style.height = (player_height + transform_fac) + "px";
+    //     }
+    //
+    // }
 
 
     // console.log(finish_left + " " + player_left);
@@ -183,7 +186,8 @@ function flicker() {
     //     }
     // }
 
-    moveFromTo(fields[10], finish_top[1]);
+
+    moveFromTo(fields[31], finish_left[0]);
     // alert(c)
 }
 
