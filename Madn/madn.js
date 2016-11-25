@@ -1,199 +1,209 @@
+var NUM_FIELDS = 40;
+var NUM_PLAYER_FIGURES = 4;
+var MOVEMENT_SPEED = 10;
 
-var fields = []
-var finish_top = []
-var finish_right = []
-var finish_bottom = []
-var finish_left = []
-
-var interval;
-
-
-function addFields() {
-    for (i = 1; i <= 40; i++) {
-        fields.push(document.getElementById("field"+i));
-    }
-    for (i = 1; i <= 4; i++) {
-        finish_top.push(document.getElementById("inner-field-top-"+i));
-        finish_right.push(document.getElementById("inner-field-right-"+i));
-        finish_bottom.push(document.getElementById("inner-field-bottom-"+i));
-        finish_left.push(document.getElementById("inner-field-left-"+i));
-    }
+var PLAYERS = {
+    TOP:1,
+    RIGHT:2,
+    BOTTOM:3,
+    LEFT:4
 }
 
-function finishMove(a, b, p) {
-
-    b.childNodes[0].childNodes[0].className = p.className;
-    // if (b.className.includes("field-inner ")) {
-    // } else {
-    //     b.childNodes[0].childNodes[0].className = p.className.replace('field-inner ','inner-field-inner ');
-    // }
-    p.style.display = "none";
-
+var figure = {
+    player:null,
+    finished:false
 }
 
-function updateMove(a, b, p) {
-    console.log("updateMove");
-
-    var player_left = parseInt(p.style.left);
-    var player_top = parseInt(p.style.top);
-    var player_width = parseInt(p.clientWidth);
-    var player_height = parseInt(p.clientWidth);
-
-    var start_top = a.offsetTop;
-    var start_left = a.offsetLeft;
-
-    var start_width = a.clientWidth;
-    var start_child2_width = a.childNodes[0].childNodes[0].clientWidth;
-
-    var finish_top = b.offsetTop;
-    var finish_left = b.offsetLeft;
-
-    var finish_width = b.clientWidth;
-    var finish_child1_width = b.childNodes[0].clientWidth;
-    var finish_child2_width = b.childNodes[0].childNodes[0].clientWidth;
-
-    var start_top = start_top + ((start_width - start_child2_width) / 2);
-    var start_left = start_left + ((start_width - start_child2_width) / 2);
-
-    var finish_top = finish_top + ((finish_width- finish_child2_width) / 2);
-    var finish_left = finish_left + ((finish_width - finish_child2_width) / 2);
-
-    var distance = Math.abs((finish_top - start_top)) + Math.abs((finish_left - start_left));
-    var distance_done = Math.abs((finish_top - player_top)) + Math.abs((finish_left - player_left));
-    var fac = 10;
-    var step = distance / fac;
-
-    var transform_fac = Math.abs((finish_width - start_width))/fac;
-
-    if (finish_top == player_top && finish_left == player_left) {
-        clearInterval(interval);
-        finishMove(a, b, p);
-        return;
-    }
-
-    // console.log(transform_fac+"\n"+distance_done);
-
-    // if (distance_done % step == 0) {
-    //     console.log("Transforming");
-    //     if (finish_child2_width < player_width ) {
-    //         p.style.width = (player_width - transform_fac) + "px";
-    //         p.style.height = (player_height - transform_fac) + "px";
-    //     }
-    //
-    //     if (finish_child2_width > player_height) {
-    //         p.style.width = (player_width + transform_fac) + "px";
-    //         p.style.height = (player_height + transform_fac) + "px";
-    //     }
-    //
-    // }
-
-
-    // console.log(finish_left + " " + player_left);
-
-    if (finish_left > player_left) {
-        //move right
-        // console.log(p.style.left);
-        p.style.left = (player_left + 1) + "px";
-        // console.log(p.style.left);
-    }
-
-    if (finish_left < player_left) {
-        //move right
-        // console.log(p.style.left);
-        p.style.left = (player_left - 1) + "px";
-        // console.log(p.style.left);
-    }
-
-    if (finish_top > player_top) {
-        //move right
-        // console.log(p.style.top);
-        p.style.top = (player_top + 1) + "px";
-        // console.log(p.style.top);
-    }
-
-    if (finish_top < player_top) {
-        //move right
-        // console.log(p.style.top);
-        p.style.top = (player_top - 1) + "px";
-        // console.log(p.style.top);
-    }
-
-
+function field(currentPlayer, nextField, nextFinishField, finishPlayer, isFinishField) {
+    this.currentPlayer = currentPlayer;
+    this.nextField = nextField;
+    this.nextFinishField = nextFinishField;
+    this.finishPlayer = finishPlayer;
+    this.isFinishField = isFinishField;
 }
 
-function moveFromTo(a, b) {
+// var field = {
+//     currentPlayer:null,
+//     nextField:null,
+//     nextFinishField:null,
+//     finishPlayer:null,
+//     isFinishField:false
+// }
 
-    var movable = document.getElementById("movable-player")
-    var start_top = a.offsetTop;
-    var start_left = a.offsetLeft;
+var game = {
+    fields:[],
+    finish_fields_top:[],
+    finish_fields_right:[],
+    finish_fields_bottom:[],
+    finish_fields_left:[],
+    createFields:(function() {
+        var i;
+        for (i = 0; i < NUM_FIELDS; i++) {
+            this.fields.push(new field(null, null, null, null, false));
+        };
+        // alert(this.fields.length);
+        for (i = 0; i < (this.fields.length-1); i++) {
+            this.fields[i].nextField = this.fields[(i + 1)];
+        };
+        this.fields[this.fields.length-1].nextField = this.fields[0];
+        for (i = 0; i < NUM_PLAYER_FIGURES; i++) {
+            this.finish_fields_top.push(    new field(null, null, null, PLAYERS.TOP, true));
+            this.finish_fields_right.push(  new field(null, null, null, PLAYERS.RIGHT, true));
+            this.finish_fields_bottom.push( new field(null, null, null, PLAYERS.BOTTOM, true));
+            this.finish_fields_left.push(   new field(null, null, null, PLAYERS.LEFT, true));
+        }
+        for (i = 0; i < NUM_PLAYER_FIGURES-1; i++) {
+            this.finish_fields_top[i].nextField = this.finish_fields_top[i+1];
+            this.finish_fields_right[i].nextField = this.finish_fields_right[i+1];
+            this.finish_fields_bottom[i].nextField = this.finish_fields_bottom[i+1];
+            this.finish_fields_left[i].nextField = this.finish_fields_left[i+1];
+        }
+        this.fields[1].nextFinishField = this.finish_fields_top[0];
+        this.fields[11].nextFinishField = this.finish_fields_right[0];
+        this.fields[21].nextFinishField = this.finish_fields_bottom[0];
+        this.fields[31].nextFinishField = this.finish_fields_left[0];
 
-    var start_width = a.clientWidth;
-    var start_child1_width = a.childNodes[0].clientWidth;
-    var start_child2_width = a.childNodes[0].childNodes[0].clientWidth;
-    var movable_top = start_top + ((start_width - start_child2_width) / 2);
-    var movable_left = start_left + ((start_width - start_child2_width) / 2);
+        this.fields[1].finishPlayer = PLAYERS.TOP;
+        this.fields[11].finishPlayer = PLAYERS.RIGHT;
+        this.fields[21].finishPlayer = PLAYERS.BOTTOM;
+        this.fields[31].finishPlayer = PLAYERS.LEFT;
 
-
-    // console.log("a:\n"
-    //     + start_width + "px\n"
-    //     + start_child1_width + "px\n"
-    //     + start_child2_width + "px\n"
-    //     + start_top + "px\n"
-    //     + start_left + "px\n"
-    //     + "\n"
-    //     + movable_top + "px\n"
-    //     + movable_left + "px\n"
-    // );
-
-
-    movable.className = a.childNodes[0].childNodes[0].className;
-    // movable.style.backgroundColor = "brown";
-    movable.style.display = "block";
-    movable.style.zIndex = "100";
-    movable.style.top = movable_top + "px";
-    movable.style.left = movable_left + "px";
-    movable.style.position = "absolute";
-
-    // reset start to normal
-    a.childNodes[0].childNodes[0].className = "field-inner"
-
-    interval = setInterval(function(){
-        updateMove(a, b, movable);
-    }, 10);
-
-}
-
-
-function flicker() {
-
-    // var c=document.getElementById("field1").childNodes[0].childNodes[0];
-    // // alert(c);
-    // if (c.className == "field-inner field-inner-green") {
-    //     c.className = "field-inner";
-    // } else {
-    //     c.className = "field-inner field-inner-green";
-    // }
-    //
-
-    // for (i = 0; i < fields.length; i++) {
-    //     var c = fields[i].childNodes[0].childNodes[0];
-    //     if (c.className == "field-inner field-inner-green") {
-    //         c.className = "field-inner";
-    //     } else if (c.className == "field-inner") {
-    //         c.className = "field-inner field-inner-red";
-    //     } else {
-    //         c.className = "field-inner field-inner-green";
-    //     }
-    // }
+    })
+};
 
 
-    moveFromTo(fields[31], finish_left[0]);
-    // alert(c)
-}
+var visuals = {
+    fields:[],
+    finish_fields_top:[],
+    finish_fields_right:[],
+    finish_fields_bottom:[],
+    finish_fields_left:[],
+    interval:null,
+    movable:(document.getElementById("movable-player")),
+    createFields:(function() {
+        var i;
+        for (i = 1; i <= NUM_FIELDS; i++) {
+            this.fields.push(document.getElementById("field"+i));
+        }
+        for (i = 1; i <= NUM_PLAYER_FIGURES; i++) {
+            this.finish_fields_top.push(    document.getElementById("inner-field-top-"+i));
+            this.finish_fields_right.push(  document.getElementById("inner-field-right-"+i));
+            this.finish_fields_bottom.push( document.getElementById("inner-field-bottom-"+i));
+            this.finish_fields_left.push(   document.getElementById("inner-field-left-"+i));
+        }
+    }),
+    updateMove:(function(a, b, p) {
+        console.log("updateMove");
 
-addFields();
+        var player_left = parseInt(p.style.left);
+        var player_top = parseInt(p.style.top);
+        var player_width = parseInt(p.clientWidth);
+        var player_height = parseInt(p.clientWidth);
 
-flicker();
+        var start_rect = a.getBoundingClientRect();
+        var start_top = start_rect.top;
+        var start_left = start_rect.left;
+
+        var start_width = a.clientWidth;
+        var start_child2_width = a.childNodes[0].childNodes[0].clientWidth;
+
+        var finish_rect = b.getBoundingClientRect();
+        var finish_top = finish_rect.top;
+        var finish_left = finish_rect.left;
+
+        var finish_width = b.clientWidth;
+        var finish_child1_width = b.childNodes[0].clientWidth;
+        var finish_child2_width = b.childNodes[0].childNodes[0].clientWidth;
+
+        var start_top = start_top + ((start_width - start_child2_width) / 2);
+        var start_left = start_left + ((start_width - start_child2_width) / 2);
+
+        var finish_top = finish_top + ((finish_width- finish_child2_width) / 2);
+        var finish_left = finish_left + ((finish_width - finish_child2_width) / 2);
+
+        var distance = Math.abs((finish_top - start_top)) + Math.abs((finish_left - start_left));
+        var distance_done = Math.abs((finish_top - player_top)) + Math.abs((finish_left - player_left));
+        var fac = 10;
+        var step = distance / fac;
+
+        var transform_fac = Math.abs((finish_width - start_width))/fac;
+
+        if (finish_top == player_top && finish_left == player_left) {
+            clearInterval(this.interval);
+            b.childNodes[0].childNodes[0].className = p.className;
+            p.style.display = "none";
+            return;
+        }
+
+        if (finish_left > player_left) {
+            //move right
+            // console.log(p.style.left);
+            p.style.left = (player_left + 1) + "px";
+            // console.log(p.style.left);
+        }
+
+        if (finish_left < player_left) {
+            //move left
+            // console.log(p.style.left);
+            p.style.left = (player_left - 1) + "px";
+            // console.log(p.style.left);
+        }
+
+        if (finish_top > player_top) {
+            //move up
+            // console.log(p.style.top);
+            p.style.top = (player_top + 1) + "px";
+            // console.log(p.style.top);
+        }
+
+        if (finish_top < player_top) {
+            //move down
+            // console.log(p.style.top);
+            p.style.top = (player_top - 1) + "px";
+            // console.log(p.style.top);
+        }
+    }),
+    moveFromTo:(function(a, b) {
+        var start_rect = a.getBoundingClientRect();
+        var start_top = start_rect.top;
+        var start_left = start_rect.left;
+
+        var start_width = a.clientWidth;
+        var start_child1_width = a.childNodes[0].clientWidth;
+        var start_child2_width = a.childNodes[0].childNodes[0].clientWidth;
+        var movable_top = start_top + ((start_width - start_child2_width) / 2);
+        var movable_left = start_left + ((start_width - start_child2_width) / 2);
+
+        this.movable.className = a.childNodes[0].childNodes[0].className;
+        // movable.style.backgroundColor = "brown";
+        this.movable.style.display = "block";
+        this.movable.style.zIndex = "100";
+        this.movable.style.top = movable_top + "px";
+        this.movable.style.left = movable_left + "px";
+        this.movable.style.position = "absolute";
+
+        // reset start to normal
+        a.childNodes[0].childNodes[0].className = "field-inner";
+
+        // This can't be the solution...
+        var that = this;
+        this.interval = setInterval(function(){
+            that.updateMove(a, b, that.movable);
+        }, MOVEMENT_SPEED);
+
+    })
+};
+
+function start() {
+    game.createFields();
+    visuals.createFields();
+
+    visuals.moveFromTo(visuals.fields[31], visuals.finish_fields_left[0]);
+};
+
+// addFields();
+
+start();
 
 // interval = window.setInterval(function(){
 //     flicker()
