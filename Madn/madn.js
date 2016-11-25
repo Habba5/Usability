@@ -118,10 +118,10 @@ var game = {
         }
     }),
     test_move:(function (){
-        var fig = new figure(PLAYERS.TOP);
+        var fig = new figure(PLAYERS.LEFT);
         this.fields[0].currentFigure = fig;
         // this.move(this.fields[0], this.fields[5]);
-        this.move(this.fields[0], this.finish_fields_top[2]);
+        this.move(this.fields[0], this.finish_fields_left[3]);
     })
 };
 
