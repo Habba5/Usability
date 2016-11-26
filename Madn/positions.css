@@ -358,3 +358,23 @@
     margin-top: 500px;
     margin-left: 20px;
 }
+
+#dice-top {
+    margin-top: 15px;
+    margin-left: 200px;
+}
+
+#dice-right {
+    margin-top: 200px;
+    margin-left: 805px;
+}
+
+#dice-bottom {
+    margin-top: 800px;
+    margin-left: 600px;
+}
+
+#dice-left {
+    margin-top: 600px;
+    margin-left: 15px;
+}

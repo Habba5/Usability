@@ -98,6 +98,40 @@
     border-radius: 50%;
 }
 
+.dice {
+    position: absolute;
+    border-radius: 10%;
+    width: 60px;
+    height: 60px;
+    background: azure no-repeat center center;
+    background-size:     cover;
+}
+
+.dice-1 {
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/1/1b/Dice-1-b.svg");
+}
+
+.dice-2 {
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/5/5f/Dice-2-b.svg");
+}
+
+.dice-3 {
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/b/b1/Dice-3-b.svg");
+}
+
+.dice-4 {
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/f/fd/Dice-4-b.svg");
+}
+
+.dice-5 {
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/0/08/Dice-5-b.svg");
+}
+
+.dice-6 {
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/2/26/Dice-6-b.svg");
+}
+
+
 #field-container {
     align-self: center;
     height: 650px;

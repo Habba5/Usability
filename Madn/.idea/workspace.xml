@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/madn.css" line="121" />
+    <bookmark url="file://$PROJECT_DIR$/madn.css" line="155" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="42d7a562-d273-4fb7-8713-00ada97cf37c" name="Default" comment="" />
@@ -26,8 +26,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="19" column="59" lean-forward="false" selection-start-line="19" selection-start-column="59" selection-end-line="19" selection-end-column="59" />
+            <state relative-caret-position="612">
+              <caret line="34" column="26" lean-forward="false" selection-start-line="34" selection-start-column="26" selection-end-line="34" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -36,8 +36,8 @@
       <file leaf-file-name="madn.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/madn.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="990">
-              <caret line="55" column="9" lean-forward="true" selection-start-line="55" selection-start-column="9" selection-end-line="55" selection-end-column="9" />
+            <state relative-caret-position="630">
+              <caret line="128" column="0" lean-forward="false" selection-start-line="128" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -46,8 +46,8 @@
       <file leaf-file-name="madn.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/madn.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="504">
-              <caret line="115" column="0" lean-forward="false" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
+            <state relative-caret-position="1684">
+              <caret line="130" column="91" lean-forward="false" selection-start-line="130" selection-start-column="91" selection-end-line="130" selection-end-column="91" />
               <folding />
             </state>
           </provider>
@@ -56,8 +56,8 @@
       <file leaf-file-name="positions.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/positions.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1136">
-              <caret line="359" column="1" lean-forward="false" selection-start-line="359" selection-start-column="1" selection-end-line="359" selection-end-column="1" />
+            <state relative-caret-position="956">
+              <caret line="373" column="20" lean-forward="false" selection-start-line="373" selection-start-column="20" selection-end-line="373" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -85,6 +85,8 @@
       <find>test_move</find>
       <find>field(</find>
       <find>NUM_PLAYERS</find>
+      <find>clearInter</find>
+      <find>File%3A</find>
     </findStrings>
     <replaceStrings>
       <replace>field</replace>
@@ -94,8 +96,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/positions.css" />
         <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/positions.css" />
         <option value="$PROJECT_DIR$/madn.css" />
         <option value="$PROJECT_DIR$/madn.js" />
       </list>
@@ -108,10 +110,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="50" />
+    <option name="x" value="1275" />
     <option name="y" value="80" />
-    <option name="width" value="1167" />
-    <option name="height" value="637" />
+    <option name="width" value="1227" />
+    <option name="height" value="1302" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -244,18 +246,18 @@
       <workItem from="1479982916965" duration="10000" />
       <workItem from="1479983898110" duration="351000" />
       <workItem from="1480079869718" duration="15185000" />
-      <workItem from="1480165804114" duration="11772000" />
+      <workItem from="1480165804114" duration="17529000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="30534000" />
+    <option name="totallyTimeSpent" value="36291000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="50" y="80" width="1167" height="637" extended-state="0" />
+    <frame x="1275" y="80" width="1227" height="1302" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21165381" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20130399" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -414,32 +416,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/positions.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1136">
-          <caret line="359" column="1" lean-forward="false" selection-start-line="359" selection-start-column="1" selection-end-line="359" selection-end-column="1" />
+        <state relative-caret-position="956">
+          <caret line="373" column="20" lean-forward="false" selection-start-line="373" selection-start-column="20" selection-end-line="373" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="19" column="59" lean-forward="false" selection-start-line="19" selection-start-column="59" selection-end-line="19" selection-end-column="59" />
+        <state relative-caret-position="612">
+          <caret line="34" column="26" lean-forward="false" selection-start-line="34" selection-start-column="26" selection-end-line="34" selection-end-column="26" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/madn.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="115" column="0" lean-forward="false" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
+        <state relative-caret-position="1684">
+          <caret line="130" column="91" lean-forward="false" selection-start-line="130" selection-start-column="91" selection-end-line="130" selection-end-column="91" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/madn.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="990">
-          <caret line="55" column="9" lean-forward="true" selection-start-line="55" selection-start-column="9" selection-end-line="55" selection-end-column="9" />
+        <state relative-caret-position="630">
+          <caret line="128" column="0" lean-forward="false" selection-start-line="128" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
           <folding />
         </state>
       </provider>

@@ -1,6 +1,7 @@
 var NUM_FIELDS = 40;
 var NUM_PLAYER_FIGURES = 4;
 var MOVEMENT_SPEED = 10;
+var ROLLING_SPEED = 100;
 var NUM_PLAYERS = 4;
 
 var PLAYERS = {
@@ -14,6 +15,11 @@ function Figure(id, p) {
     this.id = id;
     this.player = p;
     this.finish = false;
+}
+
+function Dice(p) {
+    this.player = p;
+    this.face = 1;
 }
 
 function Field(id, currentFigure, nextField, nextFinishField, finishPlayer, isFinishField, isStartingField) {
@@ -34,10 +40,14 @@ var game = {
     finish_fields_bottom:[],
     finish_fields_left:[],
     finishes:{},
+    dices:{},
     player_figures:{},
     player_starts:{},
     player_turn:null,
     movement_queue:[],
+    rolling:false,
+    roll:0,
+    rolling_interval:null,
     createFields:(function() {
         var i;
         for (i = 0; i < NUM_FIELDS; i++) {
@@ -97,6 +107,55 @@ var game = {
             this.player_starts[PLAYERS.LEFT].push(   new Field(i, null, this.fields[32], null, PLAYERS.LEFT, false, true));
         }
 
+        this.dices[PLAYERS.TOP] = new Dice(PLAYERS.TOP);
+        this.dices[PLAYERS.RIGHT] = new Dice(PLAYERS.RIGHT);
+        this.dices[PLAYERS.BOTTOM] = new Dice(PLAYERS.BOTTOM);
+        this.dices[PLAYERS.LEFT] = new Dice(PLAYERS.LEFT);
+    }),
+    onClickFields:(function () {
+
+    }),
+    rollDice:(function (dice) {
+        this.roll++;
+        if (this.roll > 50) {
+            console.log("Clearing rolling interval");
+            var that = this;
+            clearInterval(that.rolling_interval);
+            return;
+        }
+        // slow down rolls
+        if (this.roll > 45 && this.rolling < 49) {
+            return
+        }
+        if (this.roll > 30 && this.roll % 2 == 0) {
+            console.log("Skipping > 70");
+            return;
+        }
+        var roll = Math.floor(Math.random() * (6 - 1 + 1)) + 1;
+        dice.face = roll;
+        this.visuals.setDice(dice);
+    }),
+    getDiceFromDiv:(function (div) {
+        switch (div.id) {
+            case "dice-top":
+                return this.dices[PLAYERS.TOP];
+            case "dice-right":
+                return this.dices[PLAYERS.RIGHT];
+            case "dice-bottom":
+                return this.dices[PLAYERS.BOTTOM];
+            case "dice-left":
+                return this.dices[PLAYERS.LEFT];
+        }
+    }),
+    onClickDice:(function (dice) {
+        var dice = this.getDiceFromDiv(dice);
+        // alert("On Click " + dice.id);
+        this.rolling = true;
+        this.roll = 0;
+        var that = this;
+        this.rolling_interval = setInterval(function(){
+            that.rollDice(dice);
+        }, ROLLING_SPEED)
     }),
     initialize:(function () {
         for (var i = 0; i < NUM_PLAYER_FIGURES; i++) {
@@ -186,6 +245,7 @@ var visuals = {
     finish_fields_bottom:[],
     finish_fields_left:[],
     finishes:{},
+    dices:{},
     player_figures:{},
     player_starts:{},
     interval:null,
@@ -218,6 +278,27 @@ var visuals = {
         this.player_starts[PLAYERS.RIGHT] = [];
         this.player_starts[PLAYERS.BOTTOM] = [];
         this.player_starts[PLAYERS.LEFT] = [];
+
+        this.dices[PLAYERS.TOP] = document.getElementById("dice-top");
+        this.dices[PLAYERS.RIGHT] = document.getElementById("dice-right");
+        this.dices[PLAYERS.BOTTOM] = document.getElementById("dice-bottom");
+        this.dices[PLAYERS.LEFT] = document.getElementById("dice-left");
+
+        var that = this;
+        this.dices[PLAYERS.TOP].addEventListener("click", function() {
+            that.game.onClickDice(that.dices[PLAYERS.TOP])
+        });
+        this.dices[PLAYERS.RIGHT].addEventListener("click", function() {
+            that.game.onClickDice(that.dices[PLAYERS.RIGHT])
+        });
+        this.dices[PLAYERS.BOTTOM].addEventListener("click", function() {
+            that.game.onClickDice(that.dices[PLAYERS.BOTTOM])
+        });
+        this.dices[PLAYERS.LEFT].addEventListener("click", function() {
+            that.game.onClickDice(that.dices[PLAYERS.LEFT])
+        });
+
+
 
         for (i = 1; i <= NUM_PLAYER_FIGURES; i++) {
             this.player_figures[PLAYERS.TOP].push(      document.getElementById("player-top-"+i));
@@ -292,6 +373,9 @@ var visuals = {
              return this.fields[f.id];
         }
     }),
+    getDiceDiv:(function (dice) {
+        return this.dices[dice.player];
+    }),
     moveFromTo:(function(a, b, p) {
         this.moving = true;
 
@@ -324,6 +408,10 @@ var visuals = {
     }),
     make_move:(function (a, b, p) {
         this.moveFromTo(this.getFieldDiv(a), this.getFieldDiv(b), this.getPlayerDiv(p));
+    }),
+    setDice:(function (dice) {
+        var vis_dice = this.getDiceDiv(dice);
+        vis_dice.className = "dice dice-"+dice.face;
     })
 };
 
