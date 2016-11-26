@@ -314,7 +314,7 @@ var game = {
                 } else if (!figures[i].field.isStartingField && goto_field.currentFigure.player != this.player_turn) {
                     // field occupied by enemy
                     moves.push([figures[i].field, goto_field]);
-                } else if (figures[i].field.isStartingField && !figures[i].field.nextField.currentFigure && this.dices[this.player_turn].face == 6) {
+                } else if (figures[i].field.isStartingField && (!figures[i].field.nextField.currentFigure || figures[i].field.nextField.currentFigure.player != this.player_turn) && this.dices[this.player_turn].face == 6) {
                     moves.push([figures[i].field, figures[i].field.nextField]);
                 }
             }
