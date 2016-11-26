@@ -326,23 +326,12 @@ var game = {
             this.movement_queue.push([a, a.nextField, a.currentFigure]);
         } else if (this.fields.indexOf(a) >= 0 && this.fields.indexOf(b) >= 0) {
             // alert(this.fields.indexOf(b))
-            var tmp = a.nextField;
-            do {
+            var tmp = a;
+            while (tmp != b) {
                 this.movement_queue.push([tmp, tmp.nextField, a.currentFigure]);
                 tmp = tmp.nextField;
-            } while (tmp != b);
-            // if (a.id < b.id) {
-            //     for(i = a.id; i < b.id; i++) {
-            //         this.movement_queue.push([this.fields[i], this.fields[i+1], a.currentFigure]);
-            //     }
-            // } else {
-            //     for(i = a.id; i < this.fields.length-2; i++) {
-            //         this.movement_queue.push([this.fields[i], this.fields[i+1], a.currentFigure]);
-            //     }
-            //     for(i = 0; i < b.id; i++) {
-            //         this.movement_queue.push([this.fields[i], this.fields[i+1], a.currentFigure]);
-            //     }
-            // }
+            }
+
         } else if (this.fields.indexOf(a) >= 0 && b.isFinishField) {
             var cur = a;
             var next = a.nextField;
