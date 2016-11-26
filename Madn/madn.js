@@ -1,8 +1,9 @@
 var NUM_FIELDS = 40;
 var NUM_PLAYER_FIGURES = 4;
 var MOVEMENT_SPEED = 10;
-var ROLLING_SPEED = 100;
+var ROLLING_SPEED = 50;
 var NUM_PLAYERS = 4;
+var GUARANTEE_SIX=false;
 
 var PLAYERS = {
     TOP:1,
@@ -58,6 +59,7 @@ var game = {
     roll:0,
     rolling_interval:null,
     moves:[],
+    moving:false,
     createFields:(function() {
         var i;
         for (i = 0; i < NUM_FIELDS; i++) {
@@ -170,7 +172,7 @@ var game = {
     onClickFields:(function (field) {
         console.log("Click " + field.id);
         field = this.getFieldFromDiv(field);
-        if (!this.needs_roll) {
+        if (!this.needs_roll && !this.moving) {
             console.log("No needs roll")
             for (var i = 0; i < this.moves.length; i++) {
                 console.log(this.moves[i][0] + " " + field);
@@ -192,9 +194,10 @@ var game = {
             clearInterval(that.rolling_interval);
 
             // REMOVE ME
-            // dice.face = 6;
-            // this.visuals.setDice(dice);
-
+            if (GUARANTEE_SIX) {
+                dice.face = 6;
+                this.visuals.setDice(dice);
+            }
 
             this.needs_roll = false;
             this.update();
@@ -205,7 +208,7 @@ var game = {
             return
         }
         if (this.roll > 30 && this.roll % 2 == 0) {
-            console.log("Skipping > 70");
+            // console.log("Skipping > 70");
             return;
         }
         dice.face = Math.floor(Math.random() * (6 - 1 + 1)) + 1;
@@ -224,7 +227,7 @@ var game = {
         }
     }),
     onClickDice:(function (dice) {
-        if (this.needs_roll) {
+        if (this.needs_roll && !this.moving) {
             dice = this.getDiceFromDiv(dice);
             // alert("On Click " + dice.id);
             this.rolling = true;
@@ -320,56 +323,75 @@ var game = {
     move:(function (a, b) {
         var i;
         if (a.isStartingField) {
-            this.movement_queue.push([a, a.nextField]);
-            if (a.nextField != b) {
-                a = a.nextField;
-            }
-        }
-        if (this.fields.indexOf(a) >= 0 && this.fields.indexOf(b) >= 0) {
+            this.movement_queue.push([a, a.nextField, a.currentFigure]);
+        } else if (this.fields.indexOf(a) >= 0 && this.fields.indexOf(b) >= 0) {
             // alert(this.fields.indexOf(b))
-            if (a.id < b.id) {
-                for(i = a.id; i < b.id; i++) {
-                    this.movement_queue.push([this.fields[i], this.fields[i+1]]);
-                }
-            } else {
-                for(i = a.id; i < this.fields.length-2; i++) {
-                    this.movement_queue.push([this.fields[i], this.fields[i+1]]);
-                }
-                for(i = 0; i < b.id; i++) {
-                    this.movement_queue.push([this.fields[i], this.fields[i+1]]);
-                }
-            }
+            var tmp = a.nextField;
+            do {
+                this.movement_queue.push([tmp, tmp.nextField, a.currentFigure]);
+                tmp = tmp.nextField;
+            } while (tmp != b);
+            // if (a.id < b.id) {
+            //     for(i = a.id; i < b.id; i++) {
+            //         this.movement_queue.push([this.fields[i], this.fields[i+1], a.currentFigure]);
+            //     }
+            // } else {
+            //     for(i = a.id; i < this.fields.length-2; i++) {
+            //         this.movement_queue.push([this.fields[i], this.fields[i+1], a.currentFigure]);
+            //     }
+            //     for(i = 0; i < b.id; i++) {
+            //         this.movement_queue.push([this.fields[i], this.fields[i+1], a.currentFigure]);
+            //     }
+            // }
         } else if (this.fields.indexOf(a) >= 0 && b.isFinishField) {
             var cur = a;
             var next = a.nextField;
             do {
-                this.movement_queue.push([cur, next]);
+                this.movement_queue.push([cur, next, a.currentFigure]);
                 cur = next;
                 next = cur.nextField;
             } while (cur.finishPlayer != b.finishPlayer);
-            this.movement_queue.push([cur, this.finishes[b.finishPlayer][0]]);
+            this.movement_queue.push([cur, this.finishes[b.finishPlayer][0], a.currentFigure]);
             for(i = 0; i < b.id; i++) {
-                this.movement_queue.push([this.finishes[b.finishPlayer][i], this.finishes[b.finishPlayer][i+1]]);
+                this.movement_queue.push([this.finishes[b.finishPlayer][i], this.finishes[b.finishPlayer][i+1], a.currentFigure]);
             }
         }
+
         if (this.movement_queue.length > 0) {
+            this.moving = true;
+            a.currentFigure = null;
             this.make_move();
         }
     }),
+    resetFigureToBase:(function (figure) {
+        for (var i = 0; i < NUM_PLAYER_FIGURES; i++) {
+            if (!this.player_starts[figure.player][i].currentFigure) {
+                this.movement_queue.push([figure.field, this.player_starts[figure.player][i], figure]);
+                break;
+            }
+        }
+
+
+    }),
     make_move:(function () {
         var pair = this.movement_queue.shift();
-        this.visuals.make_move(pair[0], pair[1], pair[0].currentFigure);
-        pair[1].currentFigure = pair[0].currentFigure;
-        pair[0].currentFigure = null;
-        pair[1].currentFigure.field = pair[1];
+        this.visuals.make_move(pair[0], pair[1], pair[2]);
+        if (this.movement_queue.length == 0) {
+            if (pair[1].currentFigure) {
+                this.resetFigureToBase(pair[1].currentFigure);
+            }
+            pair[1].currentFigure = pair[2];
+            pair[2].field = pair[1];
+        }
         if (pair[1].isFinishField) {
-            pair[1].currentFigure.finish = true;
+            pair[2].finish = true;
         }
     }),
     finished_move_callback:(function () {
         if (this.movement_queue.length > 0) {
             this.make_move();
         } else {
+            this.moving = false;
             this.nextTurn();
         }
     }),
