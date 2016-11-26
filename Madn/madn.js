@@ -199,6 +199,7 @@ var game = {
                 this.visuals.setDice(dice);
             }
 
+            this.rolling = false;
             this.needs_roll = false;
             this.update();
             return;
@@ -227,7 +228,7 @@ var game = {
         }
     }),
     onClickDice:(function (dice) {
-        if (this.needs_roll && !this.moving) {
+        if (this.needs_roll && !this.moving && !this.rolling) {
             dice = this.getDiceFromDiv(dice);
             // alert("On Click " + dice.id);
             this.rolling = true;
