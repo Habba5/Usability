@@ -1,21 +1,22 @@
 var NUM_FIELDS = 40;
 var NUM_PLAYER_FIGURES = 4;
 var MOVEMENT_SPEED = 10;
+var NUM_PLAYERS = 4;
 
 var PLAYERS = {
     TOP:1,
     RIGHT:2,
     BOTTOM:3,
     LEFT:4
-}
+};
 
-function figure(id, p) {
+function Figure(id, p) {
     this.id = id;
     this.player = p;
     this.finish = false;
 }
 
-function field(id, currentFigure, nextField, nextFinishField, finishPlayer, isFinishField, isStartingField) {
+function Field(id, currentFigure, nextField, nextFinishField, finishPlayer, isFinishField, isStartingField) {
     this.id = id;
     this.currentFigure = currentFigure;
     this.nextField = nextField;
@@ -35,22 +36,23 @@ var game = {
     finishes:{},
     player_figures:{},
     player_starts:{},
+    player_turn:null,
     movement_queue:[],
     createFields:(function() {
         var i;
         for (i = 0; i < NUM_FIELDS; i++) {
-            this.fields.push(new field(i, null, null, null, null, false, false));
-        };
+            this.fields.push(new Field(i, null, null, null, null, false, false));
+        }
         // alert(this.fields.length);
         for (i = 0; i < (this.fields.length-1); i++) {
             this.fields[i].nextField = this.fields[(i + 1)];
-        };
+        }
         this.fields[this.fields.length-1].nextField = this.fields[0];
         for (i = 0; i < NUM_PLAYER_FIGURES; i++) {
-            this.finish_fields_top.push(    new field(i, null, null, null, PLAYERS.TOP, true, false));
-            this.finish_fields_right.push(  new field(i, null, null, null, PLAYERS.RIGHT, true, false));
-            this.finish_fields_bottom.push( new field(i, null, null, null, PLAYERS.BOTTOM, true, false));
-            this.finish_fields_left.push(   new field(i, null, null, null, PLAYERS.LEFT, true, false));
+            this.finish_fields_top.push(    new Field(i, null, null, null, PLAYERS.TOP, true, false));
+            this.finish_fields_right.push(  new Field(i, null, null, null, PLAYERS.RIGHT, true, false));
+            this.finish_fields_bottom.push( new Field(i, null, null, null, PLAYERS.BOTTOM, true, false));
+            this.finish_fields_left.push(   new Field(i, null, null, null, PLAYERS.LEFT, true, false));
         }
         for (i = 0; i < NUM_PLAYER_FIGURES-1; i++) {
             this.finish_fields_top[i].nextField = this.finish_fields_top[i+1];
@@ -84,25 +86,27 @@ var game = {
         this.player_starts[PLAYERS.LEFT] = [];
 
         for (i = 0; i < NUM_PLAYER_FIGURES; i++) {
-            this.player_figures[PLAYERS.TOP].push(      new figure(i, PLAYERS.TOP));
-            this.player_figures[PLAYERS.RIGHT].push(    new figure(i, PLAYERS.RIGHT));
-            this.player_figures[PLAYERS.BOTTOM].push(   new figure(i, PLAYERS.BOTTOM));
-            this.player_figures[PLAYERS.LEFT].push(     new figure(i, PLAYERS.LEFT));
+            this.player_figures[PLAYERS.TOP].push(      new Figure(i, PLAYERS.TOP));
+            this.player_figures[PLAYERS.RIGHT].push(    new Figure(i, PLAYERS.RIGHT));
+            this.player_figures[PLAYERS.BOTTOM].push(   new Figure(i, PLAYERS.BOTTOM));
+            this.player_figures[PLAYERS.LEFT].push(     new Figure(i, PLAYERS.LEFT));
 
-            this.player_starts[PLAYERS.TOP].push(    new field(i, null, this.fields[2], null, PLAYERS.TOP, false, true));
-            this.player_starts[PLAYERS.RIGHT].push(  new field(i, null, this.fields[12], null, PLAYERS.RIGHT, false, true));
-            this.player_starts[PLAYERS.BOTTOM].push( new field(i, null, this.fields[22], null, PLAYERS.BOTTOM, false, true));
-            this.player_starts[PLAYERS.LEFT].push(   new field(i, null, this.fields[32], null, PLAYERS.LEFT, false, true));
+            this.player_starts[PLAYERS.TOP].push(    new Field(i, null, this.fields[2], null, PLAYERS.TOP, false, true));
+            this.player_starts[PLAYERS.RIGHT].push(  new Field(i, null, this.fields[12], null, PLAYERS.RIGHT, false, true));
+            this.player_starts[PLAYERS.BOTTOM].push( new Field(i, null, this.fields[22], null, PLAYERS.BOTTOM, false, true));
+            this.player_starts[PLAYERS.LEFT].push(   new Field(i, null, this.fields[32], null, PLAYERS.LEFT, false, true));
         }
 
     }),
     initialize:(function () {
-        for (i = 0; i < NUM_PLAYER_FIGURES; i++) {
+        for (var i = 0; i < NUM_PLAYER_FIGURES; i++) {
             this.setPosition(this.player_starts[PLAYERS.TOP][i], this.player_figures[PLAYERS.TOP][i]);
             this.setPosition(this.player_starts[PLAYERS.RIGHT][i], this.player_figures[PLAYERS.RIGHT][i]);
             this.setPosition(this.player_starts[PLAYERS.BOTTOM][i], this.player_figures[PLAYERS.BOTTOM][i]);
             this.setPosition(this.player_starts[PLAYERS.LEFT][i], this.player_figures[PLAYERS.LEFT][i]);
         }
+        this.player_turn = PLAYERS.TOP;
+        console.log("Initialize: Player " + this.player_turn + " begins!");
     }),
     setPosition:(function (position, figure) {
         position.currentFigure = figure;
@@ -115,6 +119,7 @@ var game = {
 
     }),
     move:(function (a, b) {
+        var i;
         if (a.isStartingField) {
             this.movement_queue.push([a, a.nextField]);
             if (a.nextField != b) {
@@ -124,19 +129,18 @@ var game = {
         if (this.fields.indexOf(a) >= 0 && this.fields.indexOf(b) >= 0) {
             // alert(this.fields.indexOf(b))
             if (a.id < b.id) {
-                for(var i = a.id; i < b.id; i++) {
+                for(i = a.id; i < b.id; i++) {
                     this.movement_queue.push([this.fields[i], this.fields[i+1]]);
                 }
             } else {
-                for(var i = a.id; i < this.fields.length-2; i++) {
+                for(i = a.id; i < this.fields.length-2; i++) {
                     this.movement_queue.push([this.fields[i], this.fields[i+1]]);
                 }
-                for(var i = 0; i < b.id; i++) {
+                for(i = 0; i < b.id; i++) {
                     this.movement_queue.push([this.fields[i], this.fields[i+1]]);
                 }
             }
         } else if (this.fields.indexOf(a) >= 0 && b.isFinishField) {
-            // alert("Hier");
             var cur = a;
             var next = a.nextField;
             do {
@@ -145,7 +149,7 @@ var game = {
                 next = cur.nextField;
             } while (cur.finishPlayer != b.finishPlayer);
             this.movement_queue.push([cur, this.finishes[b.finishPlayer][0]]);
-            for(var i = 0; i < b.id; i++) {
+            for(i = 0; i < b.id; i++) {
                 this.movement_queue.push([this.finishes[b.finishPlayer][i], this.finishes[b.finishPlayer][i+1]]);
             }
         }
@@ -156,8 +160,7 @@ var game = {
     make_move:(function () {
         var pair = this.movement_queue.shift();
         this.visuals.make_move(pair[0], pair[1], pair[0].currentFigure);
-        var fig = pair[0].currentFigure;
-        pair[1].currentFigure = fig;
+        pair[1].currentFigure = pair[0].currentFigure;
         pair[0].currentFigure = null;
     }),
     finished_move_callback:(function () {
@@ -239,8 +242,8 @@ var visuals = {
         var finish_width = selected_field.clientWidth;
         var finish_child2_width = selected_field.childNodes[0].childNodes[0].clientWidth;
 
-        var finish_top = finish_top + ((finish_width- finish_child2_width) / 2);
-        var finish_left = finish_left + ((finish_width - finish_child2_width) / 2);
+        finish_top = finish_top + ((finish_width- finish_child2_width) / 2);
+        finish_left = finish_left + ((finish_width - finish_child2_width) / 2);
 
         selected_figure.style.top = finish_top + "px";
         selected_figure.style.left = finish_left + "px";
@@ -275,7 +278,6 @@ var visuals = {
             clearInterval(that.interval);
             this.moving = false;
             this.game.finished_move_callback();
-            return;
         }
     }),
     getPlayerDiv:(function(p) {
@@ -305,25 +307,13 @@ var visuals = {
         var finish_left = finish_rect.left + window.scrollX;
 
         var finish_width = b.clientWidth;
-        var finish_child1_width = b.childNodes[0].clientWidth;
         var finish_child2_width = b.childNodes[0].childNodes[0].clientWidth;
 
-        var start_top = start_top + ((start_width - start_child2_width) / 2);
-        var start_left = start_left + ((start_width - start_child2_width) / 2);
+        start_top = start_top + ((start_width - start_child2_width) / 2);
+        start_left = start_left + ((start_width - start_child2_width) / 2);
 
-        var finish_top = finish_top + ((finish_width- finish_child2_width) / 2);
-        var finish_left = finish_left + ((finish_width - finish_child2_width) / 2);
-
-        // this.movable.className = a.childNodes[0].childNodes[0].className;
-        // // movable.style.backgroundColor = "brown";
-        // this.movable.style.display = "block";
-        // this.movable.style.zIndex = "100";
-        // this.movable.style.top = movable_top + "px";
-        // this.movable.style.left = movable_left + "px";
-        // this.movable.style.position = "absolute";
-
-        // reset start to normal
-        // a.childNodes[0].childNodes[0].className = "field-inner";
+        finish_top = finish_top + ((finish_width- finish_child2_width) / 2);
+        finish_left = finish_left + ((finish_width - finish_child2_width) / 2);
 
         // This can't be the solution...
         var that = this;
@@ -344,14 +334,8 @@ function start() {
     game.visuals.createFields();
     game.initialize();
 
-    // game.visuals.moveFromTo(visuals.fields[31], visuals.finish_fields_left[0]);
     game.test_move();
-};
+}
 
-// addFields();
 
 start();
-
-// interval = window.setInterval(function(){
-//     flicker()
-// }, 1000);
