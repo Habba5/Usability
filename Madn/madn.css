@@ -3,286 +3,6 @@
     width: 100%;
 }
 
-#field1 {
-    margin-top: 0;
-    margin-left: 240px;
-}
-
-#field2 {
-    margin-top: 0;
-    margin-left: 300px;
-}
-
-#field3 {
-    margin-top: 0;
-    margin-left: 360px;
-}
-
-#field4 {
-    margin-top: 60px;
-    margin-left: 360px;
-}
-
-#field5 {
-    margin-top: 120px;
-    margin-left: 360px;
-}
-
-#field6 {
-    margin-top: 180px;
-    margin-left: 360px;
-}
-
-#field7 {
-    margin-top: 240px;
-    margin-left: 360px;
-}
-
-#field8 {
-    margin-top: 240px;
-    margin-left: 420px;
-}
-
-#field9 {
-    margin-top: 240px;
-    margin-left: 480px;
-}
-
-#field10 {
-    margin-top: 240px;
-    margin-left: 540px;
-}
-
-#field11 {
-    margin-top: 240px;
-    margin-left: 600px;
-}
-
-#field12 {
-    margin-top: 300px;
-    margin-left: 600px;
-}
-
-#field13 {
-    margin-top: 360px;
-    margin-left: 600px;
-}
-
-#field14 {
-    margin-top: 360px;
-    margin-left: 540px;
-}
-
-#field15 {
-    margin-top: 360px;
-    margin-left: 480px;
-}
-
-#field16 {
-    margin-top: 360px;
-    margin-left: 420px;
-}
-
-#field17 {
-    margin-top: 360px;
-    margin-left: 360px;
-}
-
-#field18 {
-    margin-top: 420px;
-    margin-left: 360px;
-}
-
-#field19 {
-    margin-top: 480px;
-    margin-left: 360px;
-}
-
-#field20 {
-    margin-top: 540px;
-    margin-left: 360px;
-}
-
-#field21 {
-    margin-top: 600px;
-    margin-left: 360px;
-}
-
-#field22 {
-    margin-top: 600px;
-    margin-left: 300px;
-}
-
-#field23 {
-    margin-top: 600px;
-    margin-left: 240px;
-}
-
-#field24 {
-    margin-top: 540px;
-    margin-left: 240px;
-}
-
-#field25 {
-    margin-top: 480px;
-    margin-left: 240px;
-}
-
-#field26 {
-    margin-top: 420px;
-    margin-left: 240px;
-}
-
-#field27 {
-    margin-top: 360px;
-    margin-left: 240px;
-}
-
-#field28 {
-    margin-top: 360px;
-    margin-left: 180px;
-}
-
-#field29 {
-    margin-top: 360px;
-    margin-left: 120px;
-}
-
-#field30 {
-    margin-top: 360px;
-    margin-left: 60px;
-}
-
-#field31 {
-    margin-top: 360px;
-    margin-left: 0px;
-}
-
-#field32 {
-    margin-top: 300px;
-    margin-left: 0px;
-}
-
-#field33 {
-    margin-top: 240px;
-    margin-left: 0px;
-}
-
-#field34 {
-    margin-top: 240px;
-    margin-left: 60px;
-}
-
-#field35 {
-    margin-top: 240px;
-    margin-left: 120px;
-}
-
-#field36 {
-    margin-top: 240px;
-    margin-left: 180px;
-}
-
-#field37 {
-    margin-top: 240px;
-    margin-left: 240px;
-}
-
-#field38 {
-    margin-top: 180px;
-    margin-left: 240px;
-}
-
-#field39 {
-    margin-top: 120px;
-    margin-left: 240px;
-}
-
-#field40 {
-    margin-top: 60px;
-    margin-left: 240px;
-}
-
-#inner-field-top-1 {
-    margin-top: 60px;
-    margin-left: 300px;
-}
-
-#inner-field-top-2 {
-    margin-top: 120px;
-    margin-left: 300px;
-}
-
-#inner-field-top-3 {
-    margin-top: 180px;
-    margin-left: 300px;
-}
-
-#inner-field-top-4 {
-    margin-top: 240px;
-    margin-left: 300px;
-}
-
-#inner-field-right-1 {
-    margin-top: 300px;
-    margin-left: 540px;
-}
-
-#inner-field-right-2 {
-    margin-top: 300px;
-    margin-left: 480px;
-}
-
-#inner-field-right-3 {
-    margin-top: 300px;
-    margin-left: 420px;
-}
-
-#inner-field-right-4 {
-    margin-top: 300px;
-    margin-left: 360px;
-}
-
-#inner-field-bottom-1 {
-    margin-top: 540px;
-    margin-left: 300px;
-}
-
-#inner-field-bottom-2 {
-    margin-top: 480px;
-    margin-left: 300px;
-}
-
-#inner-field-bottom-3 {
-    margin-top: 420px;
-    margin-left: 300px;
-}
-
-#inner-field-bottom-4 {
-    margin-top: 360px;
-    margin-left: 300px;
-}
-
-#inner-field-left-1 {
-    margin-top: 300px;
-    margin-left: 60px;
-}
-
-#inner-field-left-2 {
-    margin-top: 300px;
-    margin-left: 120px;
-}
-
-#inner-field-left-3 {
-    margin-top: 300px;
-    margin-left: 180px;
-}
-
-#inner-field-left-4 {
-    margin-top: 300px;
-    margin-left: 240px;
-}
-
 .inner-field {
     border-radius: 50%;
     position: absolute;
@@ -362,8 +82,25 @@
 .field-red {
     width: 54px;
     height: 54px;
-    background-color: palevioletred;
+    background-color: red;
 }
+
+.field-green {
+    width: 54px;
+    height: 54px;
+    background-color: greenyellow;
+}
+.field-blue {
+    width: 54px;
+    height: 54px;
+    background-color: blue;
+}
+.field-cyan {
+    width: 54px;
+    height: 54px;
+    background-color: cyan;
+}
+
 
 #field-container {
     align-self: center;
@@ -371,16 +108,28 @@
     width: 650px;
     overflow: hidden;
     position: relative;
-    margin-top: 100px;
     background-color: sandybrown;
-    margin: 10px;
+    margin: 100px;
     padding: 10px;
+    border: solid white;
+    box-shadow: 10px 10px 5px grey;
+}
+
+#field-and-start-container {
+    display: flex;
+    justify-content: center;
+    align-self: center;
 }
 
 #container {
-    margin:0 auto;
-    height: 100%;
-    width: 100%;
+    /*margin:0 auto;*/
+    margin: 0px;
+    width: 1920px;
+    height: 1080px;
+    background-color: bisque;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 body {

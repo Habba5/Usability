@@ -5,69 +5,88 @@
     <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,target-densitydpi=device-dpi, user-scalable=no" />
     <title>Madn</title>
     <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="positions.css">
     <link rel="stylesheet" href="madn.css">
 </head>
 
 <body>
 <div id="container">
-    <div id="movable-player" class="field-inner" style="display:none"></div>
-    <div id="field-container">
-        <div id="field1" class="field field-red"><div class="field-inner-border"><div class="field-inner field-inner-red"></div></div></div>
-        <div id="field2" class="field"><div class="field-inner-border"><div class="field-inner field-inner-cyan"></div></div></div>
-        <div id="field3" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field4" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field5" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field6" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field7" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field8" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field9" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field10" class="field"><div class="field-inner-border"><div class="field-inner field-inner-green"></div></div></div>
-        <div id="field11" class="field"><div class="field-inner-border"><div class="field-inner field-inner-green"></div></div></div>
-        <div id="field12" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field13" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field14" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field15" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field16" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field17" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field18" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field19" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field20" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field21" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field22" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field23" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field24" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field25" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field26" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field27" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field28" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field29" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field30" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field31" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field32" class="field"><div class="field-inner-border"><div class="field-inner field-inner-cyan"></div></div></div>
-        <div id="field33" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field34" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field35" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field36" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field37" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field38" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field39" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="field40" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="inner-field-top-1" class="field field-inner-green"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="inner-field-top-2" class="field field-inner-green"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="inner-field-top-3" class="field field-inner-green"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="inner-field-top-4" class="field field-inner-green"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="inner-field-right-1" class="field field-inner-red"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="inner-field-right-2" class="field field-inner-red"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="inner-field-right-3" class="field field-inner-red"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="inner-field-right-4" class="field field-inner-red"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="inner-field-bottom-1" class="field field-inner-blue"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="inner-field-bottom-2" class="field field-inner-blue"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="inner-field-bottom-3" class="field field-inner-blue"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="inner-field-bottom-4" class="field field-inner-blue"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="inner-field-left-1" class="field field-inner-cyan"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="inner-field-left-2" class="field field-inner-cyan"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="inner-field-left-3" class="field field-inner-cyan"><div class="field-inner-border"><div class="field-inner"></div></div></div>
-        <div id="inner-field-left-4" class="field field-inner-cyan"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+    <div id="field-and-start-container">
+        <div id="movable-player" class="field-inner" style="display:none"></div>
+        <div id="start-player-top-1" class="field field-green"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+        <div id="start-player-top-2" class="field field-green"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+        <div id="start-player-top-3" class="field field-green"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+        <div id="start-player-top-4" class="field field-green"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+        <div id="start-player-right-1" class="field field-red"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+        <div id="start-player-right-2" class="field field-red"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+        <div id="start-player-right-3" class="field field-red"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+        <div id="start-player-right-4" class="field field-red"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+        <div id="start-player-bottom-1" class="field field-blue"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+        <div id="start-player-bottom-2" class="field field-blue"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+        <div id="start-player-bottom-3" class="field field-blue"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+        <div id="start-player-bottom-4" class="field field-blue"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+        <div id="start-player-left-1" class="field field-cyan"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+        <div id="start-player-left-2" class="field field-cyan"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+        <div id="start-player-left-3" class="field field-cyan"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+        <div id="start-player-left-4" class="field field-cyan"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+        <div id="field-container">
+            <div id="field1" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field2" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field3" class="field field-green"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field4" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field5" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field6" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field7" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field8" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field9" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field10" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field11" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field12" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field13" class="field field-red"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field14" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field15" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field16" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field17" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field18" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field19" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field20" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field21" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field22" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field23" class="field field-blue"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field24" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field25" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field26" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field27" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field28" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field29" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field30" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field31" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field32" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field33" class="field field-cyan"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field34" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field35" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field36" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field37" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field38" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field39" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="field40" class="field"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="inner-field-top-1" class="field field-inner-green"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="inner-field-top-2" class="field field-inner-green"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="inner-field-top-3" class="field field-inner-green"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="inner-field-top-4" class="field field-inner-green"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="inner-field-right-1" class="field field-inner-red"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="inner-field-right-2" class="field field-inner-red"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="inner-field-right-3" class="field field-inner-red"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="inner-field-right-4" class="field field-inner-red"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="inner-field-bottom-1" class="field field-inner-blue"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="inner-field-bottom-2" class="field field-inner-blue"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="inner-field-bottom-3" class="field field-inner-blue"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="inner-field-bottom-4" class="field field-inner-blue"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="inner-field-left-1" class="field field-inner-cyan"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="inner-field-left-2" class="field field-inner-cyan"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="inner-field-left-3" class="field field-inner-cyan"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+            <div id="inner-field-left-4" class="field field-inner-cyan"><div class="field-inner-border"><div class="field-inner"></div></div></div>
+        </div>
     </div>
 </div>
     <script defer src="madn.js"></script>
