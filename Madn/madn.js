@@ -14,6 +14,7 @@ var PLAYERS = {
 function Figure(id, p) {
     this.id = id;
     this.player = p;
+    this.field = null;
     this.finish = false;
 }
 
@@ -30,6 +31,13 @@ function Field(id, currentFigure, nextField, nextFinishField, finishPlayer, isFi
     this.finishPlayer = finishPlayer;
     this.isFinishField = isFinishField;
     this.isStartingField = isStartingField;
+    this.getNextField = function (player) {
+        if (this.nextFinishField && player == this.finishPlayer) {
+            return this.nextFinishField;
+        } else {
+            return this.nextField;
+        }
+    }
 }
 
 var game = {
@@ -45,9 +53,11 @@ var game = {
     player_starts:{},
     player_turn:null,
     movement_queue:[],
+    needs_roll:true,
     rolling:false,
     roll:0,
     rolling_interval:null,
+    moves:[],
     createFields:(function() {
         var i;
         for (i = 0; i < NUM_FIELDS; i++) {
@@ -112,8 +122,67 @@ var game = {
         this.dices[PLAYERS.BOTTOM] = new Dice(PLAYERS.BOTTOM);
         this.dices[PLAYERS.LEFT] = new Dice(PLAYERS.LEFT);
     }),
-    onClickFields:(function () {
-
+    getFieldFromDiv:(function (field) {
+        if (field.id.includes("start-player")) {
+            var split = field.id.split("-");
+            var starts = [];
+            switch (split[2]) {
+                case "top":
+                    starts = this.player_starts[PLAYERS.TOP];
+                    break;
+                case "right":
+                    starts = this.player_starts[PLAYERS.RIGHT];
+                    break;
+                case "bottom":
+                    starts = this.player_starts[PLAYERS.BOTTOM];
+                    break;
+                case "left":
+                    starts = this.player_starts[PLAYERS.LEFT];
+                    break;
+            }
+            var index = parseInt(split[3]);
+            return starts[index-1];
+        } else if (field.id.includes("inner-field")) {
+            var split = field.id.split("-");
+            var finishes = [];
+            switch (split[2]) {
+                case "top":
+                    finishes = this.finishes[PLAYERS.TOP];
+                    break;
+                case "right":
+                    finishes = this.finishes[PLAYERS.RIGHT];
+                    break;
+                case "bottom":
+                    finishes = this.finishes[PLAYERS.BOTTOM];
+                    break;
+                case "left":
+                    finishes = this.finishes[PLAYERS.LEFT];
+                    break;
+            }
+            var index = parseInt(split[3]);
+            return finishes[index-1];
+        } else {
+            var split = field.id.substring(5);
+            var index = parseInt(split);
+            return this.fields[index-1];
+        }
+    }),
+    onClickFields:(function (field) {
+        console.log("Click " + field.id);
+        field = this.getFieldFromDiv(field);
+        if (!this.needs_roll) {
+            console.log("No needs roll")
+            for (var i = 0; i < this.moves.length; i++) {
+                console.log(this.moves[i][0] + " " + field);
+                if (this.moves[i][0] == field) {
+                    this.move(this.moves[i][0], this.moves[i][1]);
+                    this.moves = [];
+                    this.needs_roll = true;
+                    break;
+                }
+            }
+            // alert("Click on " + field.id);
+        }
     }),
     rollDice:(function (dice) {
         this.roll++;
@@ -121,6 +190,14 @@ var game = {
             console.log("Clearing rolling interval");
             var that = this;
             clearInterval(that.rolling_interval);
+
+            // REMOVE ME
+            // dice.face = 6;
+            // this.visuals.setDice(dice);
+
+
+            this.needs_roll = false;
+            this.update();
             return;
         }
         // slow down rolls
@@ -131,8 +208,7 @@ var game = {
             console.log("Skipping > 70");
             return;
         }
-        var roll = Math.floor(Math.random() * (6 - 1 + 1)) + 1;
-        dice.face = roll;
+        dice.face = Math.floor(Math.random() * (6 - 1 + 1)) + 1;
         this.visuals.setDice(dice);
     }),
     getDiceFromDiv:(function (div) {
@@ -148,14 +224,16 @@ var game = {
         }
     }),
     onClickDice:(function (dice) {
-        var dice = this.getDiceFromDiv(dice);
-        // alert("On Click " + dice.id);
-        this.rolling = true;
-        this.roll = 0;
-        var that = this;
-        this.rolling_interval = setInterval(function(){
-            that.rollDice(dice);
-        }, ROLLING_SPEED)
+        if (this.needs_roll) {
+            dice = this.getDiceFromDiv(dice);
+            // alert("On Click " + dice.id);
+            this.rolling = true;
+            this.roll = 0;
+            var that = this;
+            this.rolling_interval = setInterval(function () {
+                that.rollDice(dice);
+            }, ROLLING_SPEED)
+        }
     }),
     initialize:(function () {
         for (var i = 0; i < NUM_PLAYER_FIGURES; i++) {
@@ -164,18 +242,80 @@ var game = {
             this.setPosition(this.player_starts[PLAYERS.BOTTOM][i], this.player_figures[PLAYERS.BOTTOM][i]);
             this.setPosition(this.player_starts[PLAYERS.LEFT][i], this.player_figures[PLAYERS.LEFT][i]);
         }
-        this.player_turn = PLAYERS.TOP;
+        this.player_turn = PLAYERS.LEFT;
         console.log("Initialize: Player " + this.player_turn + " begins!");
     }),
     setPosition:(function (position, figure) {
         position.currentFigure = figure;
+        figure.field = position;
         visuals.setPosition(position, figure);
+
+    }),
+    begin:(function () {
+       this.update();
     }),
     canMove:(function () {
 
     }),
     update:(function () {
-
+        console.log("Update");
+        this.moves = this.getPossibleMoves();
+        console.log("Possible moves: " + this.moves.length);
+        if (this.moves.length > 0) {
+            this.visuals.highlightMoves(this.moves);
+        } else {
+            this.nextTurn();
+        }
+    }),
+    nextTurn:(function () {
+        this.needs_roll = true;
+        switch (this.player_turn) {
+            case PLAYERS.TOP:
+                this.player_turn = PLAYERS.RIGHT;
+                break;
+            case PLAYERS.RIGHT:
+                this.player_turn = PLAYERS.BOTTOM;
+                break;
+            case PLAYERS.BOTTOM:
+                this.player_turn = PLAYERS.LEFT;
+                break;
+            case PLAYERS.LEFT:
+                this.player_turn = PLAYERS.TOP;
+                break;
+            default:
+                this.player_turn = PLAYERS.TOP;
+                break;
+        }
+        this.visuals.hideDice(this.dices[PLAYERS.TOP]);
+        this.visuals.hideDice(this.dices[PLAYERS.RIGHT]);
+        this.visuals.hideDice(this.dices[PLAYERS.BOTTOM]);
+        this.visuals.hideDice(this.dices[PLAYERS.LEFT]);
+        this.visuals.showDice(this.dices[this.player_turn]);
+    }),
+    getPossibleMoves:(function () {
+        var moves = [];
+        var figures = this.player_figures[this.player_turn];
+        for (var i = 0; i < figures.length; i++) {
+            if (!figures[i].finish) {
+                var goto_field = figures[i].field;
+                for (var j = 0; j < this.dices[this.player_turn].face; j++) {
+                    goto_field = goto_field.getNextField(this.player_turn);
+                }
+                // finish field and empty
+                if (!figures[i].field.isStartingField && goto_field.isFinishField && !goto_field.currentFigure) {
+                    moves.push([figures[i].field, goto_field]);
+                } else if (!figures[i].field.isStartingField && !goto_field.currentFigure) {
+                    // field empty
+                    moves.push([figures[i].field, goto_field]);
+                } else if (!figures[i].field.isStartingField && goto_field.currentFigure.player != this.player_turn) {
+                    // field occupied by enemy
+                    moves.push([figures[i].field, goto_field]);
+                } else if (figures[i].field.isStartingField && !figures[i].field.nextField.currentFigure && this.dices[this.player_turn].face == 6) {
+                    moves.push([figures[i].field, figures[i].field.nextField]);
+                }
+            }
+        }
+        return moves;
     }),
     move:(function (a, b) {
         var i;
@@ -221,12 +361,16 @@ var game = {
         this.visuals.make_move(pair[0], pair[1], pair[0].currentFigure);
         pair[1].currentFigure = pair[0].currentFigure;
         pair[0].currentFigure = null;
+        pair[1].currentFigure.field = pair[1];
+        if (pair[1].isFinishField) {
+            pair[1].currentFigure.finish = true;
+        }
     }),
     finished_move_callback:(function () {
         if (this.movement_queue.length > 0) {
             this.make_move();
         } else {
-            this.update();
+            this.nextTurn();
         }
     }),
     test_move:(function (){
@@ -252,16 +396,33 @@ var visuals = {
     game:null,
     movable:(document.getElementById("movable-player")),
     moving:false,
+    createEventListenerField:(function (field) {
+        var that = this;
+        field.addEventListener("click", function() {
+            that.game.onClickFields(field)
+        });
+    }),
     createFields:(function() {
         var i;
         for (i = 1; i <= NUM_FIELDS; i++) {
-            this.fields.push(document.getElementById("field"+i));
+            var field = document.getElementById("field"+i)
+            this.fields.push(field);
+            this.createEventListenerField(field);
         }
         for (i = 1; i <= NUM_PLAYER_FIGURES; i++) {
-            this.finish_fields_top.push(    document.getElementById("inner-field-top-"+i));
-            this.finish_fields_right.push(  document.getElementById("inner-field-right-"+i));
-            this.finish_fields_bottom.push( document.getElementById("inner-field-bottom-"+i));
-            this.finish_fields_left.push(   document.getElementById("inner-field-left-"+i));
+            var top = document.getElementById("inner-field-top-"+i);
+            var right = document.getElementById("inner-field-right-"+i);
+            var bottom = document.getElementById("inner-field-bottom-"+i);
+            var left = document.getElementById("inner-field-left-"+i);
+            this.finish_fields_top.push(top);
+            this.finish_fields_right.push(right);
+            this.finish_fields_bottom.push(bottom);
+            this.finish_fields_left.push(left);
+
+            this.createEventListenerField(top);
+            this.createEventListenerField(right);
+            this.createEventListenerField(bottom);
+            this.createEventListenerField(left);
         }
         this.finishes[PLAYERS.TOP] = this.finish_fields_top;
         this.finishes[PLAYERS.RIGHT] = this.finish_fields_right;
@@ -306,10 +467,20 @@ var visuals = {
             this.player_figures[PLAYERS.BOTTOM].push(   document.getElementById("player-bottom-"+i));
             this.player_figures[PLAYERS.LEFT].push(     document.getElementById("player-left-"+i));
 
-            this.player_starts[PLAYERS.TOP].push(      document.getElementById("start-player-top-"+i));
-            this.player_starts[PLAYERS.RIGHT].push(    document.getElementById("start-player-right-"+i));
-            this.player_starts[PLAYERS.BOTTOM].push(   document.getElementById("start-player-bottom-"+i));
-            this.player_starts[PLAYERS.LEFT].push(     document.getElementById("start-player-left-"+i));
+            var top = document.getElementById("start-player-top-"+i);
+            var right = document.getElementById("start-player-right-"+i);
+            var bottom = document.getElementById("start-player-bottom-"+i);
+            var left = document.getElementById("start-player-left-"+i);
+
+            this.player_starts[PLAYERS.TOP].push(top);
+            this.player_starts[PLAYERS.RIGHT].push(right);
+            this.player_starts[PLAYERS.BOTTOM].push(bottom);
+            this.player_starts[PLAYERS.LEFT].push(left);
+
+            this.createEventListenerField(top);
+            this.createEventListenerField(right);
+            this.createEventListenerField(bottom);
+            this.createEventListenerField(left);
         }
     }),
     setPosition:(function (position, figure) {
@@ -361,6 +532,9 @@ var visuals = {
             this.game.finished_move_callback();
         }
     }),
+    highlightMoves:(function () {
+
+    }),
     getPlayerDiv:(function(p) {
         return this.player_figures[p.player][p.id];
     }),
@@ -375,6 +549,14 @@ var visuals = {
     }),
     getDiceDiv:(function (dice) {
         return this.dices[dice.player];
+    }),
+    showDice:(function (dice) {
+        var vis_dice = this.getDiceDiv(dice);
+        vis_dice.style.display = "block";
+    }),
+    hideDice:(function (dice) {
+        var vis_dice = this.getDiceDiv(dice);
+        vis_dice.style.display = "none";
     }),
     moveFromTo:(function(a, b, p) {
         this.moving = true;
@@ -421,8 +603,9 @@ function start() {
     game.visuals.game = game;
     game.visuals.createFields();
     game.initialize();
+    game.begin();
 
-    game.test_move();
+    // game.test_move();
 }
 
 
