@@ -169,9 +169,7 @@ var game = {
             return this.fields[index-1];
         }
     }),
-    onClickFields:(function (field) {
-        console.log("Click " + field.id);
-        field = this.getFieldFromDiv(field);
+    selectedField:(function (field) {
         if (!this.needs_roll && !this.moving) {
             console.log("No needs roll")
             for (var i = 0; i < this.moves.length; i++) {
@@ -185,6 +183,10 @@ var game = {
             }
             // alert("Click on " + field.id);
         }
+    }),
+    onClickFields:(function (field) {
+        console.log("Click " + field.id);
+        this.selectedField(this.getFieldFromDiv(field));
     }),
     rollDice:(function (dice) {
         this.roll++;
@@ -238,6 +240,24 @@ var game = {
                 that.rollDice(dice);
             }, ROLLING_SPEED)
         }
+    }),
+    getFigureFromDiv:(function (div) {
+        var split = div.id.split("-");
+        var index = parseInt(split[2]) - 1;
+        switch (split[1]) {
+            case "top":
+                return this.player_figures[PLAYERS.TOP][index];
+            case "right":
+                return this.player_figures[PLAYERS.RIGHT][index];
+            case "bottom":
+                return this.player_figures[PLAYERS.BOTTOM][index];
+            case "left":
+                return this.player_figures[PLAYERS.LEFT][index];
+        }
+    }),
+    onClickFigure:(function (figure) {
+        console.log("Click " + figure.id);
+        this.selectedField(this.getFigureFromDiv(figure).field);
     }),
     initialize:(function () {
         for (var i = 0; i < NUM_PLAYER_FIGURES; i++) {
@@ -414,6 +434,12 @@ var visuals = {
             that.game.onClickFields(field)
         });
     }),
+    createEventListenerFigure:(function (figure) {
+        var that = this;
+        figure.addEventListener("click", function() {
+            that.game.onClickFigure(figure)
+        });
+    }),
     createFields:(function() {
         var i;
         for (i = 1; i <= NUM_FIELDS; i++) {
@@ -474,10 +500,20 @@ var visuals = {
 
 
         for (i = 1; i <= NUM_PLAYER_FIGURES; i++) {
-            this.player_figures[PLAYERS.TOP].push(      document.getElementById("player-top-"+i));
-            this.player_figures[PLAYERS.RIGHT].push(    document.getElementById("player-right-"+i));
-            this.player_figures[PLAYERS.BOTTOM].push(   document.getElementById("player-bottom-"+i));
-            this.player_figures[PLAYERS.LEFT].push(     document.getElementById("player-left-"+i));
+            var ptop = document.getElementById("player-top-"+i);
+            var pright = document.getElementById("player-right-"+i);
+            var pbottom = document.getElementById("player-bottom-"+i);
+            var pleft =document.getElementById("player-left-"+i);
+
+            this.player_figures[PLAYERS.TOP].push(ptop);
+            this.player_figures[PLAYERS.RIGHT].push(pright);
+            this.player_figures[PLAYERS.BOTTOM].push(pbottom);
+            this.player_figures[PLAYERS.LEFT].push(pleft);
+
+            this.createEventListenerFigure(ptop);
+            this.createEventListenerFigure(pright);
+            this.createEventListenerFigure(pbottom);
+            this.createEventListenerFigure(pleft);
 
             var top = document.getElementById("start-player-top-"+i);
             var right = document.getElementById("start-player-right-"+i);
