@@ -57,6 +57,7 @@ var game = {
     needs_roll:true,
     rolling:false,
     roll:0,
+    num_rolls:0,
     rolling_interval:null,
     moves:[],
     moving:false,
@@ -188,6 +189,16 @@ var game = {
         console.log("Click " + field.id);
         this.selectedField(this.getFieldFromDiv(field));
     }),
+    figuresInStart:(function(player){
+    var figures = this.player_figures[player];
+    var figuresInStart = 0;
+    for(var i = 0; i < NUM_PLAYER_FIGURES; i++){
+        if(figures[i].field.isStartingField){
+                figuresInStart++;
+            }
+        }
+       return figuresInStart;
+    }),
     rollDice:(function (dice) {
         this.roll++;
         if (this.roll > 50) {
@@ -202,7 +213,15 @@ var game = {
             }
 
             this.rolling = false;
-            this.needs_roll = false;
+            this.num_rolls--;
+            if(this.num_rolls > 0){
+                if(dice.face == 6){
+                    this.num_rolls = 1;
+                }
+                this.needs_roll = true;
+            } else{
+                this.needs_roll = false;
+            }
             this.update();
             return;
         }
@@ -292,6 +311,7 @@ var game = {
         }
     }),
     nextTurn:(function () {
+        if(!(this.num_rolls > 0)){
         this.needs_roll = true;
         switch (this.player_turn) {
             case PLAYERS.TOP:
@@ -309,6 +329,12 @@ var game = {
             default:
                 this.player_turn = PLAYERS.TOP;
                 break;
+        }
+        if(this.figuresInStart(this.player_turn) == NUM_PLAYER_FIGURES){
+                   this.num_rolls = 3;
+                } else {
+                    this.num_rolls = 1;
+                }
         }
         this.visuals.hideDice(this.dices[PLAYERS.TOP]);
         this.visuals.hideDice(this.dices[PLAYERS.RIGHT]);
@@ -551,29 +577,26 @@ var visuals = {
     updateMove:(function(a_top, a_left, b_top, b_left, p) {
         var player_left = parseInt(p.style.left);
         var player_top = parseInt(p.style.top);
+        var b_top_round = Math.round(b_top);
+        var b_left_round = Math.round(b_left);
 
-
-        if (b_left > player_left) {
+        if (b_left_round > player_left) {
             //move right
             p.style.left = (player_left + 1) + "px";
-        }
-
-        if (b_left < player_left) {
+        } else if (b_left_round < player_left) {
             //move left
             p.style.left = (player_left - 1) + "px";
         }
 
-        if (b_top > player_top) {
+        if (b_top_round > player_top) {
             //move up
             p.style.top = (player_top + 1) + "px";
-        }
-
-        if (b_top < player_top) {
+        } else if (b_top_round < player_top) {
             //move down
             p.style.top = (player_top - 1) + "px";
         }
 
-        if (b_top == player_top && b_left == player_left) {
+        if (b_top_round == player_top && b_left_round == player_left) {
             var that = this;
             clearInterval(that.interval);
             this.moving = false;
