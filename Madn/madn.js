@@ -257,7 +257,7 @@ var game = {
         }
     }),
     onClickDice:(function (dice) {
-        if (this.needs_roll && !this.moving && !this.rolling) {
+        if (this.needs_roll && !this.needs_move && !this.moving && !this.rolling) {
             dice = this.getDiceFromDiv(dice);
             // alert("On Click " + dice.id);
             this.rolling = true;
