@@ -55,6 +55,7 @@ var game = {
     player_turn:null,
     movement_queue:[],
     needs_roll:true,
+    needs_move:false,
     rolling:false,
     roll:0,
     num_rolls:0,
@@ -171,11 +172,12 @@ var game = {
         }
     }),
     selectedField:(function (field) {
-        if (!this.needs_roll && !this.moving) {
-            console.log("No needs roll")
+        console.log("this.needs_move " + this.needs_move);
+        if (this.needs_move && !this.moving) {
             for (var i = 0; i < this.moves.length; i++) {
                 console.log(this.moves[i][0] + " " + field);
                 if (this.moves[i][0] == field) {
+                    this.needs_move = false;
                     this.move(this.moves[i][0], this.moves[i][1]);
                     this.moves = [];
                     this.needs_roll = true;
@@ -220,7 +222,13 @@ var game = {
                 }
                 this.needs_roll = true;
             } else{
-                this.needs_roll = false;
+                if(dice.face == 6){
+                    this.num_rolls = 1;
+                    this.needs_roll = true;
+                }
+            }
+            if (this.getPossibleMoves().length > 0) {
+                this.needs_move = true;
             }
             this.update();
             return;
