@@ -315,26 +315,44 @@ var game = {
             this.nextTurn();
         }
     }),
+    playerHasFinished:(function(player){
+        var figures = this.player_figures[player];
+        for(var i = 0; i < NUM_PLAYER_FIGURES; i++){
+            if(!figures[i].finish){
+                return false;
+            }
+        }
+        return true;
+    }),
+    getNextPlayer:(function (player) {
+        var turn;
+        switch (player) {
+            case PLAYERS.TOP:
+                turn = PLAYERS.RIGHT;
+                break;
+            case PLAYERS.RIGHT:
+                turn = PLAYERS.BOTTOM;
+                break;
+            case PLAYERS.BOTTOM:
+                turn = PLAYERS.LEFT;
+                break;
+            case PLAYERS.LEFT:
+                turn = PLAYERS.TOP;
+                break;
+            default:
+                turn = PLAYERS.TOP;
+                break;
+        }
+        if (this.playerHasFinished(turn)) {
+            return this.getNextPlayer(turn)
+        } else {
+            return turn;
+        }
+    }),
     nextTurn:(function () {
         if(!(this.num_rolls > 0)){
         this.needs_roll = true;
-        switch (this.player_turn) {
-            case PLAYERS.TOP:
-                this.player_turn = PLAYERS.RIGHT;
-                break;
-            case PLAYERS.RIGHT:
-                this.player_turn = PLAYERS.BOTTOM;
-                break;
-            case PLAYERS.BOTTOM:
-                this.player_turn = PLAYERS.LEFT;
-                break;
-            case PLAYERS.LEFT:
-                this.player_turn = PLAYERS.TOP;
-                break;
-            default:
-                this.player_turn = PLAYERS.TOP;
-                break;
-        }
+        this.player_turn = this.getNextPlayer(this.player_turn);
         if(this.figuresInStart(this.player_turn) == NUM_PLAYER_FIGURES){
                    this.num_rolls = 3;
                 } else {
