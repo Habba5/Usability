@@ -305,9 +305,6 @@ var game = {
     begin:(function () {
        this.update();
     }),
-    canMove:(function () {
-
-    }),
     update:(function () {
         console.log("Update");
         this.moves = this.getPossibleMoves();
