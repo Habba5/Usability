@@ -78,7 +78,6 @@
     width: 32px;
     position: absolute;
     z-index: 100;
-    box-shadow: 1px 1px 5px white;
 }
 
 .player-top {
