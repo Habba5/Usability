@@ -296,6 +296,9 @@ var game = {
     onClickExit:(function () {
         alert("Unimplemented!");
     }),
+    onClickResume:(function () {
+        this.visuals.hideMenu();
+    }),
     onClickReturnToMenu:(function () {
         this.visuals.showMenu();
     }),
@@ -457,6 +460,9 @@ var game = {
         } else {
             this.moving = false;
             this.nextTurn();
+            if (this.playerHasFinished(this.player_turn)) {
+                this.visuals.playerWon(this.player_turn+1);
+            }
         }
     }),
     test_move:(function (){
@@ -504,6 +510,9 @@ var visuals = {
         });
         document.getElementById("return-to-menu").addEventListener("click", function () {
             that.game.onClickReturnToMenu();
+        });
+        document.getElementById("resume").addEventListener("click", function () {
+            that.game.onClickResume();
         });
     }),
     createFields:(function() {
@@ -733,6 +742,12 @@ var visuals = {
     }),
     showMenu:(function () {
         document.getElementById("menu-overlay").style.display = "flex";
+        document.getElementById("resume").style.display = "block";
+        document.getElementById("title").textContent = "Mensch ärgere dich nicht!"
+    }),
+    playerWon:(function (player) {
+        this.showMenu();
+        document.getElementById("title").textContent = "Player " + player + " won!";
     })
 };
 
