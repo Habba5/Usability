@@ -369,59 +369,45 @@ var game = {
         var moves = [];
         var figures = this.player_figures[this.player_turn];
         for (var i = 0; i < figures.length; i++) {
-            if (!figures[i].finish) {
-                var goto_field = figures[i].field;
-                for (var j = 0; j < this.dices[this.player_turn].face; j++) {
-                    loop_inner:
-                    if (goto_field != null) {
-                        goto_field = goto_field.getNextField(this.player_turn);
-                    } else {
-                        break loop_inner;
-                    }
+            var goto_field = figures[i].field;
+            for (var j = 0; j < this.dices[this.player_turn].face; j++) {
+                loop_inner:
+                if (goto_field != null) {
+                    goto_field = goto_field.getNextField(this.player_turn);
+                } else {
+                    break loop_inner;
                 }
-                if (goto_field == null) {
-                    continue;
-                }
-                // finish field and empty
-                if (!figures[i].field.isStartingField && goto_field.isFinishField && !goto_field.currentFigure) {
-                    moves.push([figures[i].field, goto_field]);
-                } else if (!figures[i].field.isStartingField && !goto_field.currentFigure) {
-                    // field empty
-                    moves.push([figures[i].field, goto_field]);
-                } else if (!figures[i].field.isStartingField && goto_field.currentFigure.player != this.player_turn) {
-                    // field occupied by enemy
-                    moves.push([figures[i].field, goto_field]);
-                } else if (figures[i].field.isStartingField && (!figures[i].field.nextField.currentFigure || figures[i].field.nextField.currentFigure.player != this.player_turn) && this.dices[this.player_turn].face == 6) {
-                    moves.push([figures[i].field, figures[i].field.nextField]);
-                }
+            }
+            if (goto_field == null) {
+                continue;
+            }
+            // finish field and empty
+            if (!figures[i].field.isStartingField && goto_field.isFinishField && !goto_field.currentFigure) {
+                moves.push([figures[i].field, goto_field]);
+            } else if (!figures[i].field.isStartingField && !goto_field.currentFigure) {
+                // field empty
+                moves.push([figures[i].field, goto_field]);
+            } else if (!figures[i].field.isStartingField && goto_field.currentFigure.player != this.player_turn) {
+                // field occupied by enemy
+                moves.push([figures[i].field, goto_field]);
+            } else if (figures[i].field.isStartingField && (!figures[i].field.nextField.currentFigure || figures[i].field.nextField.currentFigure.player != this.player_turn) && this.dices[this.player_turn].face == 6) {
+                moves.push([figures[i].field, figures[i].field.nextField]);
             }
         }
         return moves;
     }),
     move:(function (a, b) {
-        var i;
         if (a.isStartingField) {
             this.movement_queue.push([a, a.nextField, a.currentFigure]);
-        } else if (this.fields.indexOf(a) >= 0 && this.fields.indexOf(b) >= 0) {
-            // alert(this.fields.indexOf(b))
+        } else {
             var tmp = a;
+            var next = tmp.getNextField(this.player_turn);
             while (tmp != b) {
-                this.movement_queue.push([tmp, tmp.nextField, a.currentFigure]);
-                tmp = tmp.nextField;
+                this.movement_queue.push([tmp, tmp.getNextField(this.player_turn), a.currentFigure]);
+                tmp = next;
+                next = tmp.getNextField(this.player_turn);
             }
 
-        } else if (this.fields.indexOf(a) >= 0 && b.isFinishField) {
-            var cur = a;
-            var next = cur.getNextField(this.player_turn);
-            do {
-                this.movement_queue.push([cur, next, a.currentFigure]);
-                cur = next;
-                next = cur.nextField;
-            } while (cur.finishPlayer != b.finishPlayer);
-            this.movement_queue.push([cur, this.finishes[b.finishPlayer][0], a.currentFigure]);
-            for(i = 0; i < b.id; i++) {
-                this.movement_queue.push([this.finishes[b.finishPlayer][i], this.finishes[b.finishPlayer][i+1], a.currentFigure]);
-            }
         }
 
         if (this.movement_queue.length > 0) {
@@ -437,8 +423,6 @@ var game = {
                 break;
             }
         }
-
-
     }),
     make_move:(function () {
         var pair = this.movement_queue.shift();
