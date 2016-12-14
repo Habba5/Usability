@@ -178,6 +178,7 @@ var game = {
                 console.log(this.moves[i][0] + " " + field);
                 if (this.moves[i][0] == field) {
                     this.needs_move = false;
+                    this.visuals.resetHighlights();
                     this.move(this.moves[i][0], this.moves[i][1]);
                     this.moves = [];
                     this.needs_roll = true;
@@ -229,6 +230,7 @@ var game = {
             }
             if (this.getPossibleMoves().length > 0) {
                 this.needs_move = true;
+                this.visuals.highlightMoves(this.getPossibleMoves());
             }
             this.update();
             return;
@@ -618,8 +620,25 @@ var visuals = {
             this.game.finished_move_callback();
         }
     }),
-    highlightMoves:(function () {
-
+    highlightMoves:(function (moves) {
+        var i;
+        for(i = 0; i < moves.length; i++) {
+            this.getPlayerDiv(moves[i][0].currentFigure).classList.add("highlight-player");
+        }
+    }),
+    resetHighlights:(function () {
+        console.log("Reset Highlights");
+        var i, j;
+        for (var player in this.player_figures){
+            for (var fig in this.player_figures[player]) {
+                this.player_figures[player][fig].classList.remove("highlight-player");
+            }
+        }
+        // for (i = 0; i < this.player_figures.length; i++) {
+        //     for (j = 0; j < this.player_figures[i].length; j++) {
+        //         this.player_figures[i][j].classList.remove("highlight-player");
+        //     }
+        // }
     }),
     getPlayerDiv:(function(p) {
         return this.player_figures[p.player][p.id];
@@ -636,8 +655,12 @@ var visuals = {
     getDiceDiv:(function (dice) {
         return this.dices[dice.player];
     }),
+    highlightDice:(function (dice) {
+        dice.className = "dice dice-0";
+    }),
     showDice:(function (dice) {
         var vis_dice = this.getDiceDiv(dice);
+        this.highlightDice(vis_dice);
         vis_dice.style.display = "block";
     }),
     hideDice:(function (dice) {

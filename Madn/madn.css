@@ -11,6 +11,8 @@
     width: 50px;
     display: flex;
     justify-content: center;
+    box-shadow: 1px 1px 5px black;
+
 }
 
 .field-inner-border {
@@ -38,21 +40,21 @@
 }
 
 .field-inner-red {
-    background-color: red;
+    background-color: orangered;
 }
 
 .field-inner-blue {
-    background-color: blue;
+    background-color: cornflowerblue;
 }
 
 .field-inner-cyan {
-    background-color: cyan;
+    background-color: blueviolet;
 }
 
 .field-red {
     width: 54px;
     height: 54px;
-    background-color: red;
+    background-color: orangered;
 }
 
 .field-green {
@@ -63,12 +65,12 @@
 .field-blue {
     width: 54px;
     height: 54px;
-    background-color: blue;
+    background-color: cornflowerblue;
 }
 .field-cyan {
     width: 54px;
     height: 54px;
-    background-color: cyan;
+    background-color: blueviolet;
 }
 
 .player {
@@ -76,26 +78,29 @@
     width: 32px;
     position: absolute;
     z-index: 100;
+    box-shadow: 1px 1px 5px white;
 }
 
 .player-top {
     background-color: greenyellow;
-    border-radius: 50%;
+    border-radius: 30%;
 }
 
 .player-right {
-    background-color: red;
-    border-radius: 50%;
+    background-color: orangered;
+    /*border-radius: 50%;*/
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
 }
 
 .player-bottom {
-    background-color: blue;
-    border-radius: 50%;
+    background-color: cornflowerblue;
+    /*border-radius: 50%;*/
+    clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
 }
 
 .player-left {
-    background-color: cyan;
-    border-radius: 50%;
+    background-color: blueviolet;
+    clip-path: polygon(100% 0%, 75% 50%, 100% 100%, 25% 100%, 0% 50%, 25% 0%);
 }
 
 .dice {
@@ -105,6 +110,18 @@
     height: 60px;
     background: azure no-repeat center center;
     background-size:     cover;
+    box-shadow: 10px 10px 5px grey;
+}
+
+.dice-0 {
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/1/1b/Dice-1-b.svg");
+    -webkit-filter: blur(2px);
+    -moz-filter: blur(2px);
+    -o-filter: blur(2px);
+    -ms-filter: blur(2px);
+    filter: blur(2px);
+
+    animation: dicePulse 1s ease-in-out infinite alternate;
 }
 
 .dice-1 {
@@ -168,29 +185,18 @@ body {
     margin: 0px;
 }
 
-.field-inner:hover{
-    -webkit-animation: pulse 0.8s ease-in-out infinite alternate;
-    animation: pulse 0.8s ease-in-out infinite alternate;
+.highlight-player {
+    animation: backgroundPulse 1s ease-in-out infinite alternate;
 }
-@-webkit-keyframes pulse {
-    0% {
-        background-color: rgba(255,255,255,0.9);
-    }
-    50% {
-        background-color: greenyellow;
-    }
-    100% {
-        background-color: rgba(255,255,255,0.9);
-    }
+
+@keyframes dicePulse {
+    from { transform: scale(0.9, 0.9);}
+    50% { transform: scale(1.1, 1.1); }
+    to { transform: scale(0.9, 0.9); }
 }
-@keyframes pulse {
-    0% {
-        background-color: rgba(255,255,255,0.9);
-    }
-    50% {
-        background-color: greenyellow;
-    }
-    100% {
-        background-color: rgba(255,255,255,0.9);
-    }
+
+@keyframes backgroundPulse {
+    from { transform: scale(1, 1) rotate(0deg); box-shadow: 0 0 9px 0 black; }
+    50% { transform: scale(1.1, 1.1) rotate(15deg); box-shadow: 0 0 18px 3px grey; }
+    to { transform: scale(1, 1) rotate(0deg); box-shadow: 0 0 9px 0 black; }
 }
