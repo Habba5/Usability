@@ -99,7 +99,8 @@
 
 .player-left {
     background-color: blueviolet;
-    clip-path: polygon(100% 0%, 75% 50%, 100% 100%, 25% 100%, 0% 50%, 25% 0%);
+    /*clip-path: polygon(100% 0%, 75% 50%, 100% 100%, 25% 100%, 0% 50%, 25% 0%);*/
+    clip-path: polygon(35% 35%, 50% 0, 65% 35%, 100% 50%, 65% 65%, 50% 100%, 35% 65%, 0 50%);
 }
 
 .dice {
@@ -185,6 +186,14 @@ body {
 
 .highlight-player {
     animation: playerHighlight 1s ease-in-out infinite alternate;
+}
+
+.player-moving {
+    animation: playerMovement 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes playerMovement {
+    50% { transform: scale(1.2, 1.1) ; }
 }
 
 @keyframes dicePulse {

@@ -617,6 +617,7 @@ var visuals = {
             var that = this;
             clearInterval(that.interval);
             this.moving = false;
+            p.classList.remove("player-moving");
             this.game.finished_move_callback();
         }
     }),
@@ -684,6 +685,10 @@ var visuals = {
 
         finish_top = finish_top + ((finish_width- finish_child2_width) / 2);
         finish_left = finish_left + ((finish_width - finish_child2_width) / 2);
+
+        if (!a.id.includes("start-", 0)) {
+            p.classList.add("player-moving");
+        }
 
         // This can't be the solution...
         var that = this;
