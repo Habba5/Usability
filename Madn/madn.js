@@ -357,7 +357,15 @@ var game = {
             if (!figures[i].finish) {
                 var goto_field = figures[i].field;
                 for (var j = 0; j < this.dices[this.player_turn].face; j++) {
-                    goto_field = goto_field.getNextField(this.player_turn);
+                    loop_inner:
+                    if (goto_field != null) {
+                        goto_field = goto_field.getNextField(this.player_turn);
+                    } else {
+                        break loop_inner;
+                    }
+                }
+                if (goto_field == null) {
+                    continue;
                 }
                 // finish field and empty
                 if (!figures[i].field.isStartingField && goto_field.isFinishField && !goto_field.currentFigure) {
