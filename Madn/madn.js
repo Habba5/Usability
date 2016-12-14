@@ -634,11 +634,6 @@ var visuals = {
                 this.player_figures[player][fig].classList.remove("highlight-player");
             }
         }
-        // for (i = 0; i < this.player_figures.length; i++) {
-        //     for (j = 0; j < this.player_figures[i].length; j++) {
-        //         this.player_figures[i][j].classList.remove("highlight-player");
-        //     }
-        // }
     }),
     getPlayerDiv:(function(p) {
         return this.player_figures[p.player][p.id];
@@ -656,7 +651,7 @@ var visuals = {
         return this.dices[dice.player];
     }),
     highlightDice:(function (dice) {
-        dice.className = "dice dice-0";
+        dice.classList.add("dice-0");
     }),
     showDice:(function (dice) {
         var vis_dice = this.getDiceDiv(dice);
