@@ -288,6 +288,17 @@ var game = {
         console.log("Click " + figure.id);
         this.selectedField(this.getFigureFromDiv(figure).field);
     }),
+    onClickStart:(function () {
+        alert("Things are broken here, restarting the game will break it. Write proper initialization functions!");
+        this.initialize();
+        this.visuals.hideMenu();
+    }),
+    onClickExit:(function () {
+        alert("Unimplemented!");
+    }),
+    onClickReturnToMenu:(function () {
+        this.visuals.showMenu();
+    }),
     initialize:(function () {
         for (var i = 0; i < NUM_PLAYER_FIGURES; i++) {
             this.setPosition(this.player_starts[PLAYERS.TOP][i], this.player_figures[PLAYERS.TOP][i]);
@@ -483,10 +494,22 @@ var visuals = {
             that.game.onClickFigure(figure)
         });
     }),
+    createEventListenerMenu:(function () {
+        var that = this;
+        document.getElementById("start").addEventListener("click", function () {
+            that.game.onClickStart();
+        });
+        document.getElementById("exit").addEventListener("click", function () {
+            that.game.onClickExit();
+        });
+        document.getElementById("return-to-menu").addEventListener("click", function () {
+            that.game.onClickReturnToMenu();
+        });
+    }),
     createFields:(function() {
         var i;
         for (i = 1; i <= NUM_FIELDS; i++) {
-            var field = document.getElementById("field"+i)
+            var field = document.getElementById("field"+i);
             this.fields.push(field);
             this.createEventListenerField(field);
         }
@@ -573,6 +596,7 @@ var visuals = {
             this.createEventListenerField(bottom);
             this.createEventListenerField(left);
         }
+        this.createEventListenerMenu();
     }),
     setPosition:(function (position, figure) {
         var selected_field = this.getFieldDiv(position);
@@ -703,6 +727,12 @@ var visuals = {
     setDice:(function (dice) {
         var vis_dice = this.getDiceDiv(dice);
         vis_dice.className = "dice dice-"+dice.face;
+    }),
+    hideMenu:(function () {
+        document.getElementById("menu-overlay").style.display = "none";
+    }),
+    showMenu:(function () {
+        document.getElementById("menu-overlay").style.display = "block";
     })
 };
 
