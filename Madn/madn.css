@@ -103,17 +103,16 @@
 }
 
 .dice {
+    background: white url("https://upload.wikimedia.org/wikipedia/commons/2/26/Dice-6-b.svg");
     position: absolute;
     border-radius: 10%;
     width: 60px;
     height: 60px;
-    background: azure no-repeat center center;
-    background-size:     cover;
+    background-size: cover;
     box-shadow: 10px 10px 5px grey;
 }
 
 .dice-0 {
-    background-image: url("https://upload.wikimedia.org/wikipedia/commons/1/1b/Dice-1-b.svg");
     -webkit-filter: blur(2px);
     -moz-filter: blur(2px);
     -o-filter: blur(2px);
