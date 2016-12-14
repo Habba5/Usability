@@ -732,7 +732,7 @@ var visuals = {
         document.getElementById("menu-overlay").style.display = "none";
     }),
     showMenu:(function () {
-        document.getElementById("menu-overlay").style.display = "block";
+        document.getElementById("menu-overlay").style.display = "flex";
     })
 };
 
