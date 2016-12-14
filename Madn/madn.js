@@ -397,7 +397,7 @@ var game = {
 
         } else if (this.fields.indexOf(a) >= 0 && b.isFinishField) {
             var cur = a;
-            var next = a.nextField;
+            var next = cur.getNextField(this.player_turn);
             do {
                 this.movement_queue.push([cur, next, a.currentFigure]);
                 cur = next;
