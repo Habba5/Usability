@@ -289,9 +289,9 @@ var game = {
         this.selectedField(this.getFigureFromDiv(figure).field);
     }),
     onClickStart:(function () {
-        alert("Things are broken here, restarting the game will break it. Write proper initialization functions!");
-        this.initialize();
         this.visuals.hideMenu();
+        this.initialize();
+        this.begin()
     }),
     onClickExit:(function () {
         alert("Unimplemented!");
@@ -306,7 +306,7 @@ var game = {
             this.setPosition(this.player_starts[PLAYERS.BOTTOM][i], this.player_figures[PLAYERS.BOTTOM][i]);
             this.setPosition(this.player_starts[PLAYERS.LEFT][i], this.player_figures[PLAYERS.LEFT][i]);
         }
-        this.player_turn = PLAYERS.LEFT;
+        this.player_turn = PLAYERS.TOP;
         console.log("Initialize: Player " + this.player_turn + " begins!");
     }),
     setPosition:(function (position, figure) {
