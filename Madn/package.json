@@ -1,0 +1,8 @@
+{
+  "name": "madn",
+  "main": "index.html",
+  "window": {
+    "title": "Mensch ärgere dich nicht",
+    "fullscreen": true
+  }
+}

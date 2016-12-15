@@ -269,7 +269,8 @@ var game = {
         this.startGame();
     }),
     onClickExit:(function () {
-        alert("Unimplemented!");
+        var gui = require('nw.gui');
+        gui.App.quit();
     }),
     onClickResume:(function () {
         this.visuals.hideMenu();
