@@ -459,10 +459,10 @@ var game = {
             this.make_move();
         } else {
             this.moving = false;
-            this.nextTurn();
             if (this.playerHasFinished(this.player_turn)) {
-                this.visuals.playerWon(this.player_turn+1);
+                this.visuals.playerWon(this.player_turn);
             }
+            this.nextTurn();
         }
     }),
     test_move:(function (){
