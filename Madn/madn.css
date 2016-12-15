@@ -11,6 +11,8 @@
     width: 50px;
     display: flex;
     justify-content: center;
+    box-shadow: 1px 1px 5px black;
+
 }
 
 .field-inner-border {
@@ -38,21 +40,21 @@
 }
 
 .field-inner-red {
-    background-color: red;
+    background-color: orangered;
 }
 
 .field-inner-blue {
-    background-color: blue;
+    background-color: cornflowerblue;
 }
 
 .field-inner-cyan {
-    background-color: cyan;
+    background-color: blueviolet;
 }
 
 .field-red {
     width: 54px;
     height: 54px;
-    background-color: red;
+    background-color: orangered;
 }
 
 .field-green {
@@ -63,12 +65,12 @@
 .field-blue {
     width: 54px;
     height: 54px;
-    background-color: blue;
+    background-color: cornflowerblue;
 }
 .field-cyan {
     width: 54px;
     height: 54px;
-    background-color: cyan;
+    background-color: blueviolet;
 }
 
 .player {
@@ -80,31 +82,45 @@
 
 .player-top {
     background-color: greenyellow;
-    border-radius: 50%;
+    border-radius: 30%;
 }
 
 .player-right {
-    background-color: red;
-    border-radius: 50%;
+    background-color: orangered;
+    /*border-radius: 50%;*/
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
 }
 
 .player-bottom {
-    background-color: blue;
-    border-radius: 50%;
+    background-color: cornflowerblue;
+    /*border-radius: 50%;*/
+    clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
 }
 
 .player-left {
-    background-color: cyan;
-    border-radius: 50%;
+    background-color: blueviolet;
+    /*clip-path: polygon(100% 0%, 75% 50%, 100% 100%, 25% 100%, 0% 50%, 25% 0%);*/
+    clip-path: polygon(35% 35%, 50% 0, 65% 35%, 100% 50%, 65% 65%, 50% 100%, 35% 65%, 0 50%);
 }
 
 .dice {
+    background: white url("https://upload.wikimedia.org/wikipedia/commons/2/26/Dice-6-b.svg");
     position: absolute;
     border-radius: 10%;
     width: 60px;
     height: 60px;
-    background: azure no-repeat center center;
-    background-size:     cover;
+    background-size: cover;
+    box-shadow: 10px 10px 5px grey;
+}
+
+.dice-0 {
+    -webkit-filter: blur(2px);
+    -moz-filter: blur(2px);
+    -o-filter: blur(2px);
+    -ms-filter: blur(2px);
+    filter: blur(2px);
+
+    animation: dicePulse 1s ease-in-out infinite alternate;
 }
 
 .dice-1 {
@@ -168,29 +184,82 @@ body {
     margin: 0px;
 }
 
-.field-inner:hover{
-    -webkit-animation: pulse 0.8s ease-in-out infinite alternate;
-    animation: pulse 0.8s ease-in-out infinite alternate;
+.highlight-player {
+    animation: playerHighlight 1s ease-in-out infinite alternate;
 }
-@-webkit-keyframes pulse {
-    0% {
-        background-color: rgba(255,255,255,0.9);
-    }
-    50% {
-        background-color: greenyellow;
-    }
-    100% {
-        background-color: rgba(255,255,255,0.9);
-    }
+
+.player-moving {
+    animation: playerMovement 0.6s ease-in-out infinite alternate;
+    z-index: 110;
 }
-@keyframes pulse {
-    0% {
-        background-color: rgba(255,255,255,0.9);
-    }
-    50% {
-        background-color: greenyellow;
-    }
-    100% {
-        background-color: rgba(255,255,255,0.9);
-    }
+
+@keyframes playerMovement {
+    50% { transform: scale(1.2, 1.1) ; }
+}
+
+@keyframes dicePulse {
+    from { transform: scale(1.0, 1.0);}
+    50% { transform: scale(1.1, 1.1); }
+    to { transform: scale(1.0, 1.0); }
+}
+
+@keyframes playerHighlight {
+    from { transform: scale(1, 1) rotate(0deg); box-shadow: 0 0 9px 0 black; }
+    50% { background-color: #eee;  transform: scale(1.1, 1.1) rotate(15deg); box-shadow: 0 0 18px 3px grey; }
+    to { transform: scale(1, 1) rotate(0deg); box-shadow: 0 0 9px 0 black; }
+}
+
+
+/**
+Menu
+ */
+
+#menu-overlay{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 200;
+    background-color: rgba(0,0,0,0.7); /*dim the background*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#title {
+    font-family: "Roboto Condensed";
+    color: white;
+    font-size: 50px;
+    color: white;
+    -webkit-text-fill-color: white; /* Will override color (regardless of order) */
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: black;
+    margin-bottom: 200px;
+}
+
+#menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*width: 200px;*/
+    flex-direction: column;
+
+}
+
+.menu-item {
+    border: white solid;
+    background-color: black;
+    width: 200px;
+    height: 50px;
+    margin: 10px;
+
+    font-family: "Roboto Condensed";
+    color: white;
+    font-size: 20px;
+    color: white;
+
+    text-align: center;
+    vertical-align: middle;
+    line-height: 50px;
 }
