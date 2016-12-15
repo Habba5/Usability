@@ -190,6 +190,7 @@ body {
 
 .player-moving {
     animation: playerMovement 0.6s ease-in-out infinite alternate;
+    z-index: 110;
 }
 
 @keyframes playerMovement {
