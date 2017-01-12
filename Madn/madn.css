@@ -221,21 +221,26 @@ Menu
     width: 100%;
     height: 100%;
     z-index: 200;
-    background-color: rgba(0,0,0,0.7); /*dim the background*/
+    background-color: sandybrown;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+#logo {
+    background: url("img/madn-logo.png");
+    width: 300px;
+    height: 301px;
+    background-size: cover;
+    /*margin:auto;*/
+    margin-bottom: 30px;
+}
+
 #title {
-    font-family: "Roboto Condensed";
-    color: white;
+    font-family: "Courier New", Courier, "Liberation Mono", serif;
     font-size: 50px;
-    color: white;
-    -webkit-text-fill-color: white; /* Will override color (regardless of order) */
-    -webkit-text-stroke-width: 2px;
-    -webkit-text-stroke-color: black;
-    margin-bottom: 200px;
+    color: black;
+    margin-bottom: 80px;
 }
 
 #menu {
@@ -248,16 +253,16 @@ Menu
 }
 
 .menu-item {
-    border: white solid;
-    background-color: black;
+    border: black solid;
+    background-color: white;
+    border-radius: 20%;
     width: 200px;
     height: 50px;
     margin: 10px;
 
-    font-family: "Roboto Condensed";
-    color: white;
+    font-family: "Times New Roman", "Liberation Serif", serif;
     font-size: 20px;
-    color: white;
+    color: black;
 
     text-align: center;
     vertical-align: middle;

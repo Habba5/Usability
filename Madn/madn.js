@@ -917,7 +917,7 @@ var visuals = {
     showMenu:(function () {
         document.getElementById("menu-overlay").style.display = "flex";
         document.getElementById("resume").style.display = "block";
-        document.getElementById("title").textContent = "Mensch ärgere dich nicht!"
+        document.getElementById("title").textContent = "Mensch ärgere dich nicht!".toUpperCase()
     }),
 
     /**
