@@ -170,8 +170,8 @@
 #container {
     /*margin:0 auto;*/
     margin: 0px;
-    width: 1920px;
-    height: 1080px;
+    width: 2048px;
+    height: 1350px;
     background-color: bisque;
     display: flex;
     align-items: center;
